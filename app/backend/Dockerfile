@@ -1,15 +1,22 @@
 FROM python:3.13-slim
 
-# Impede que o Python gere arquivos .pyc e garante log em tempo real
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=off
 
 WORKDIR /app
 
-COPY requirements.txt .
+# Copia o arquivo de dependências
+COPY requirements-docker.txt .
 
-RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
+# Instala as dependências
+RUN pip install --no-cache-dir -r requirements-docker.txt
 
-COPY ./src .
+# Copia o código fonte
+COPY . .
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
+# Expõe a porta
+EXPOSE 8000
+
+# Comando para rodar a aplicação
+CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]

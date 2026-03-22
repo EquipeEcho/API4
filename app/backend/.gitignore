@@ -4,3 +4,4 @@
 .venv/
 venv/
 uploads/
+database.db
