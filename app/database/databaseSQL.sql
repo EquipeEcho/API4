@@ -1,3 +1,6 @@
+CREATE DATABASE EchoCAD_SQL;
+USE EchoCAD_SQL;
+
 CREATE TABLE Usuario (
     ID INT AUTO_INCREMENT PRIMARY KEY,
     Nome VARCHAR(100) NOT NULL,
@@ -11,9 +14,7 @@ CREATE TABLE Projetos (
     Data_criacao DATETIME DEFAULT CURRENT_TIMESTAMP,
     Descricao_projeto TEXT,
     idUsuario INT,
-    idComandos_ia INT,
-    FOREIGN KEY (idUsuario) REFERENCES Usuario(ID),
-    FOREIGN KEY (idComandos_IA) REFERENCES Comandos_IA(ID)
+    FOREIGN KEY (idUsuario) REFERENCES Usuario(ID)
 );
 
 CREATE TABLE Comandos_IA (
@@ -108,3 +109,6 @@ CREATE TABLE Processamento (
     idArquivos INT,
     FOREIGN KEY (idArquivos) REFERENCES Arquivos(id)
 ); 
+
+INSERT INTO Usuario (Nome, Email, Senha)
+VALUES ('admin', 'admin@echocad.com', 'admin123');
