@@ -1,0 +1,7 @@
+**/__pycache__/
+.vscode/
+.pytest_cache/
+.venv/
+venv/
+uploads/
+database.db
