@@ -1,7 +1,7 @@
 CREATE DATABASE EchoCAD_SQL;
 USE EchoCAD_SQL;
 
--- mapeado em orm (wesley)
+-- mapeado em orm (wesley) - last updated 26.03.2026
 CREATE TABLE Usuario (
     ID INT AUTO_INCREMENT PRIMARY KEY,
     Nome VARCHAR(100) NOT NULL,
@@ -9,6 +9,7 @@ CREATE TABLE Usuario (
     Senha VARCHAR(255) NOT NULL
 );
 
+-- mapeado em orm (Wesley)
 CREATE TABLE Projetos (
     ID INT AUTO_INCREMENT PRIMARY KEY,
     Nome VARCHAR(150) NOT NULL,

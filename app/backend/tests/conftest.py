@@ -2,7 +2,7 @@ import os
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import Session
 
 from src.main import app
 from src.database import get_session
@@ -20,14 +20,12 @@ def test_engine():
 @pytest.fixture
 def test_db(test_engine):
     """Cria sessão de teste com rollback automático."""
-    TestingSessionLocal = sessionmaker(
-        autocommit=False, autoflush=False, bind=test_engine
-    )
-    db = TestingSessionLocal()
+    test_engine.connect()
+    session = Session(bind=test_engine)
     
-    yield db
+    yield session
     
-    db.close()
+    session.close()
 
 
 @pytest.fixture
