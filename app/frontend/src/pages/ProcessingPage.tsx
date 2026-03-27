@@ -45,6 +45,10 @@ export function ProcessingPage() {
     hasFinishedRef.current = true;
 
     const timeoutId = window.setTimeout(() => {
+      if (hasFinishedRef.current) {
+        return;
+      }
+
       completeProcessing();
       navigate("/resultado", { replace: true });
     }, 500);

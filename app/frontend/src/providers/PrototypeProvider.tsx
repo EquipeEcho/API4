@@ -3,6 +3,7 @@ import {
   createContext,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from "react";
 import {
@@ -55,6 +56,7 @@ function buildUploadDocument(file: File): UploadDocument | null {
 
 export function PrototypeProvider({ children }: PropsWithChildren) {
   const [uploadedFiles, setUploadedFiles] = useState<UploadDocument[]>([]);
+  const uploadedFilesRef = useRef<UploadDocument[]>([]);
   const [historyDocuments, setHistoryDocuments] =
     useState<HistoryDocument[]>(mockHistoryDocuments);
   const [currentDocument, setCurrentDocument] = useState<GeneratedDocument | null>(
@@ -82,6 +84,11 @@ export function PrototypeProvider({ children }: PropsWithChildren) {
       tone,
       message,
     });
+  };
+
+  const syncUploadedFiles = (nextFiles: UploadDocument[]) => {
+    uploadedFilesRef.current = nextFiles;
+    setUploadedFiles(nextFiles);
   };
 
   const addUploadedFiles = (fileList: FileList | File[]): AddFilesResult => {
@@ -123,26 +130,28 @@ export function PrototypeProvider({ children }: PropsWithChildren) {
   };
 
   const removeUploadedFile = (documentId: string) => {
-    setUploadedFiles((currentFiles) =>
-      currentFiles.filter((document) => document.id !== documentId)
+    syncUploadedFiles(
+      uploadedFilesRef.current.filter((document) => document.id !== documentId)
     );
   };
 
   const clearUploadedFiles = () => {
-    setUploadedFiles([]);
+    syncUploadedFiles([]);
   };
 
   const completeProcessing = () => {
-    if (uploadedFiles.length === 0) {
+    const filesToProcess = uploadedFilesRef.current;
+
+    if (filesToProcess.length === 0) {
       return null;
     }
 
-    const generatedDocument = buildGeneratedDocumentFromUploads(uploadedFiles);
+    const generatedDocument = buildGeneratedDocumentFromUploads(filesToProcess);
     const historyDocument = buildHistoryDocumentFromGenerated(generatedDocument);
 
     setCurrentDocument(generatedDocument);
     setHistoryDocuments((currentHistory) => [historyDocument, ...currentHistory]);
-    setUploadedFiles([]);
+    syncUploadedFiles([]);
     showToast("Processamento concluído com sucesso.", "success");
 
     return generatedDocument;
