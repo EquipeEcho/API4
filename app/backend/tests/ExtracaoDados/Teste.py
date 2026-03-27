@@ -67,7 +67,7 @@ def extrair_dados_orcamento(dwg_path):
     return pd.DataFrame(lista_materiais)
 
 # --- EXECUÇÃO E AGRUPAMENTO ---
-df_orcamento = extrair_dados_orcamento("teste.dwg")
+df_orcamento = extrair_dados_orcamento(r"D:\4°ADS\API\CAD\output\PNR S Ten Sgt - 2ª Fase.dwg")
 
 if df_orcamento is not None:
     # Agrupar itens iguais para facilitar o orçamento
@@ -78,6 +78,8 @@ if df_orcamento is not None:
 
     print("--- RESUMO PARA ORÇAMENTO ---")
     print(resumo)
+
+
     # Gerando o HTML com uma classe de estilo (opcional)
     html_string = resumo.to_html(classes='table table-striped', index=False)
     
@@ -99,4 +101,4 @@ if df_orcamento is not None:
     print("Visualização gerada! Abra o arquivo 'visualizacao.html' no seu navegador.")
     # Depois é só abrir o arquivo visualizacao.html no Chrome/Edge
 # Visualizar como JSON formatado se preferir
-# print(resumo.to_json(orient='records', indent=4))
+    print(resumo.to_json(orient='records', indent=4))

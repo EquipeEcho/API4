@@ -1,0 +1,662 @@
+[
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 17249.54,
+        "preco": 163,
+        "total": 2811675.02
+    },
+    {
+        "descricao": "cimento",
+        "quantidade": 43,
+        "preco": 146,
+        "total": 6278
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 10524.22,
+        "preco": 163,
+        "total": 1715447.8599999999
+    },
+    {
+        "descricao": "cimento",
+        "quantidade": 47,
+        "preco": 146,
+        "total": 6862
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 1514.66,
+        "preco": 163,
+        "total": 246889.58000000002
+    },
+    {
+        "descricao": "cimento",
+        "quantidade": 49,
+        "preco": 146,
+        "total": 7154
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 48.6,
+        "preco": 163,
+        "total": 7921.8
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 159.31,
+        "preco": 163,
+        "total": 25967.53
+    },
+    {
+        "descricao": "cimento",
+        "quantidade": 113,
+        "preco": 146,
+        "total": 16498
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 148.9,
+        "preco": 163,
+        "total": 24270.7
+    },
+    {
+        "descricao": "cimento",
+        "quantidade": 4,
+        "preco": 146,
+        "total": 584
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 1703.48,
+        "preco": 163,
+        "total": 277667.24
+    },
+    {
+        "descricao": "cimento",
+        "quantidade": 21,
+        "preco": 146,
+        "total": 3066
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 292.8,
+        "preco": 163,
+        "total": 47726.4
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 144.74,
+        "preco": 163,
+        "total": 23592.620000000003
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 405.4,
+        "preco": 163,
+        "total": 66080.2
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 2056.76,
+        "preco": 163,
+        "total": 335251.88000000006
+    },
+    {
+        "descricao": "cimento",
+        "quantidade": 2,
+        "preco": 146,
+        "total": 292
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 301.8,
+        "preco": 163,
+        "total": 49193.4
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 7.64,
+        "preco": 163,
+        "total": 1245.32
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 15.57,
+        "preco": 163,
+        "total": 2537.91
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 46.05,
+        "preco": 163,
+        "total": 7506.15
+    },
+    {
+        "descricao": "xdh ()",
+        "quantidade": 1,
+        "preco": 397,
+        "total": 397
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 71.19,
+        "preco": 163,
+        "total": 11603.97
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 1.44,
+        "preco": 163,
+        "total": 234.72
+    },
+    {
+        "descricao": "cimento",
+        "quantidade": 11,
+        "preco": 146,
+        "total": 1606
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 207.46,
+        "preco": 163,
+        "total": 33815.98
+    },
+    {
+        "descricao": "cimento",
+        "quantidade": 16,
+        "preco": 146,
+        "total": 2336
+    },
+    {
+        "descricao": "placa1 (circ: c1, cabo: #185, prot: 400, corr: 318, cos: 1,00, carga: 462, placa: seccionamento, placa: geral, placa: )",
+        "quantidade": 1,
+        "preco": 522,
+        "total": 522
+    },
+    {
+        "descricao": "placa1 (circ: c10, cabo: #10, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: geral, placa: bl2ap2)",
+        "quantidade": 1,
+        "preco": 148,
+        "total": 148
+    },
+    {
+        "descricao": "placa1 (circ: c11, cabo: #10, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: geral, placa: bl2ap3)",
+        "quantidade": 1,
+        "preco": 148,
+        "total": 148
+    },
+    {
+        "descricao": "placa1 (circ: c12, cabo: #10, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: geral, placa: bl2ap4)",
+        "quantidade": 1,
+        "preco": 148,
+        "total": 148
+    },
+    {
+        "descricao": "placa1 (circ: c13, cabo: #10, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: geral, placa: bl2ap5)",
+        "quantidade": 1,
+        "preco": 148,
+        "total": 148
+    },
+    {
+        "descricao": "placa1 (circ: c14, cabo: #10, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: geral, placa: bl2ap6)",
+        "quantidade": 1,
+        "preco": 148,
+        "total": 148
+    },
+    {
+        "descricao": "placa1 (circ: c15, cabo: #10, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: geral, placa: bl2ac)",
+        "quantidade": 1,
+        "preco": 148,
+        "total": 148
+    },
+    {
+        "descricao": "placa1 (circ: c16, cabo: #10, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: geral, placa: bl3ap1)",
+        "quantidade": 1,
+        "preco": 148,
+        "total": 148
+    },
+    {
+        "descricao": "placa1 (circ: c17, cabo: #10, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: geral, placa: bl3ap2)",
+        "quantidade": 1,
+        "preco": 148,
+        "total": 148
+    },
+    {
+        "descricao": "placa1 (circ: c18, cabo: #10, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: geral, placa: bl3ap3)",
+        "quantidade": 1,
+        "preco": 148,
+        "total": 148
+    },
+    {
+        "descricao": "placa1 (circ: c19, cabo: #10, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: geral, placa: bl3ap4)",
+        "quantidade": 1,
+        "preco": 148,
+        "total": 148
+    },
+    {
+        "descricao": "placa1 (circ: c2, cabo: #16, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: geral, placa: bl1ap1)",
+        "quantidade": 1,
+        "preco": 148,
+        "total": 148
+    },
+    {
+        "descricao": "placa1 (circ: c20, cabo: #10, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: geral, placa: bl3ap5)",
+        "quantidade": 1,
+        "preco": 148,
+        "total": 148
+    },
+    {
+        "descricao": "placa1 (circ: c21, cabo: #10, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: geral, placa: bl3ap6)",
+        "quantidade": 1,
+        "preco": 148,
+        "total": 148
+    },
+    {
+        "descricao": "placa1 (circ: c22, cabo: #10, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: geral, placa: bl3ac)",
+        "quantidade": 1,
+        "preco": 148,
+        "total": 148
+    },
+    {
+        "descricao": "placa1 (circ: c23, cabo: #16, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: , placa: bl1ap1)",
+        "quantidade": 1,
+        "preco": 34,
+        "total": 34
+    },
+    {
+        "descricao": "placa1 (circ: c24, cabo: #16, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: , placa: bl1ap2)",
+        "quantidade": 1,
+        "preco": 34,
+        "total": 34
+    },
+    {
+        "descricao": "placa1 (circ: c25, cabo: #16, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: , placa: bl1ap3)",
+        "quantidade": 1,
+        "preco": 35,
+        "total": 35
+    },
+    {
+        "descricao": "placa1 (circ: c26, cabo: #16, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: , placa: bl1ap4)",
+        "quantidade": 1,
+        "preco": 35,
+        "total": 35
+    },
+    {
+        "descricao": "placa1 (circ: c27, cabo: #16, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: , placa: bl1ap5)",
+        "quantidade": 1,
+        "preco": 34,
+        "total": 34
+    },
+    {
+        "descricao": "placa1 (circ: c28, cabo: #16, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: , placa: bl1ap6)",
+        "quantidade": 1,
+        "preco": 34,
+        "total": 34
+    },
+    {
+        "descricao": "placa1 (circ: c29, cabo: #16, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: , placa: bl1ac)",
+        "quantidade": 1,
+        "preco": 522,
+        "total": 522
+    },
+    {
+        "descricao": "placa1 (circ: c3, cabo: #16, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: geral, placa: bl1ap2)",
+        "quantidade": 1,
+        "preco": 148,
+        "total": 148
+    },
+    {
+        "descricao": "placa1 (circ: c30, cabo: #10, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: , placa: bl2ap1)",
+        "quantidade": 1,
+        "preco": 35,
+        "total": 35
+    },
+    {
+        "descricao": "placa1 (circ: c31, cabo: #10, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: , placa: bl2ap2)",
+        "quantidade": 1,
+        "preco": 35,
+        "total": 35
+    },
+    {
+        "descricao": "placa1 (circ: c32, cabo: #10, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: , placa: bl2ap3)",
+        "quantidade": 1,
+        "preco": 35,
+        "total": 35
+    },
+    {
+        "descricao": "placa1 (circ: c33, cabo: #10, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: , placa: bl2ap4)",
+        "quantidade": 1,
+        "preco": 35,
+        "total": 35
+    },
+    {
+        "descricao": "placa1 (circ: c34, cabo: #10, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: , placa: bl2ap5)",
+        "quantidade": 1,
+        "preco": 35,
+        "total": 35
+    },
+    {
+        "descricao": "placa1 (circ: c35, cabo: #10, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: , placa: bl2ap6)",
+        "quantidade": 1,
+        "preco": 309,
+        "total": 309
+    },
+    {
+        "descricao": "placa1 (circ: c36, cabo: #10, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: , placa: bl2ac)",
+        "quantidade": 1,
+        "preco": 35,
+        "total": 35
+    },
+    {
+        "descricao": "placa1 (circ: c37, cabo: #10, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: , placa: bl3ap1)",
+        "quantidade": 1,
+        "preco": 35,
+        "total": 35
+    },
+    {
+        "descricao": "placa1 (circ: c38, cabo: #10, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: , placa: bl3ap2)",
+        "quantidade": 1,
+        "preco": 35,
+        "total": 35
+    },
+    {
+        "descricao": "placa1 (circ: c39, cabo: #10, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: , placa: bl3ap3)",
+        "quantidade": 1,
+        "preco": 34,
+        "total": 34
+    },
+    {
+        "descricao": "placa1 (circ: c4, cabo: #16, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: geral, placa: bl1ap3)",
+        "quantidade": 1,
+        "preco": 339,
+        "total": 339
+    },
+    {
+        "descricao": "placa1 (circ: c40, cabo: #10, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: , placa: bl3ap4)",
+        "quantidade": 1,
+        "preco": 35,
+        "total": 35
+    },
+    {
+        "descricao": "placa1 (circ: c41, cabo: #10, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: , placa: bl3ap5)",
+        "quantidade": 1,
+        "preco": 35,
+        "total": 35
+    },
+    {
+        "descricao": "placa1 (circ: c42, cabo: #10, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: , placa: bl3ap6)",
+        "quantidade": 1,
+        "preco": 34,
+        "total": 34
+    },
+    {
+        "descricao": "placa1 (circ: c43, cabo: #10, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: , placa: bl3ac)",
+        "quantidade": 1,
+        "preco": 35,
+        "total": 35
+    },
+    {
+        "descricao": "placa1 (circ: c44, cabo: #2,5, prot: 11, corr: 1,3, cos: 1,00, carga: 0,32, placa: iluminação, placa: centro, placa: medição)",
+        "quantidade": 1,
+        "preco": 119,
+        "total": 119
+    },
+    {
+        "descricao": "placa1 (circ: c45, cabo: #2,5, prot: 16, corr: 3, cos: 1,00, carga: 0,7, placa: tugs, placa: centro, placa: medição)",
+        "quantidade": 1,
+        "preco": 35,
+        "total": 35
+    },
+    {
+        "descricao": "placa1 (circ: c46, cabo: #95, prot: 63, corr: -, cos: -, carga: -, placa: aterramento, placa: centro, placa: medição)",
+        "quantidade": 1,
+        "preco": 29,
+        "total": 29
+    },
+    {
+        "descricao": "placa1 (circ: c5, cabo: #16, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: geral, placa: bl1ap4)",
+        "quantidade": 1,
+        "preco": 565,
+        "total": 565
+    },
+    {
+        "descricao": "placa1 (circ: c6, cabo: #16, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: geral, placa: bl1ap5)",
+        "quantidade": 1,
+        "preco": 155,
+        "total": 155
+    },
+    {
+        "descricao": "placa1 (circ: c7, cabo: #16, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: geral, placa: bl1ap6)",
+        "quantidade": 1,
+        "preco": 1799,
+        "total": 1799
+    },
+    {
+        "descricao": "placa1 (circ: c8, cabo: #16, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: geral, placa: bl1ac)",
+        "quantidade": 1,
+        "preco": 148,
+        "total": 148
+    },
+    {
+        "descricao": "placa1 (circ: c9, cabo: #10, prot: 63, corr: 58, cos: 1,00, carga: 14, placa: seccionamento, placa: geral, placa: bl2ap1)",
+        "quantidade": 1,
+        "preco": 148,
+        "total": 148
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 2391.75,
+        "preco": 163,
+        "total": 389855.25
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 22.52,
+        "preco": 163,
+        "total": 3670.7599999999998
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 10,
+        "preco": 163,
+        "total": 1630
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 15.32,
+        "preco": 163,
+        "total": 2497.16
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 32.78,
+        "preco": 163,
+        "total": 5343.14
+    },
+    {
+        "descricao": "cimento",
+        "quantidade": 6,
+        "preco": 146,
+        "total": 876
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 858,
+        "preco": 163,
+        "total": 139854
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 542.05,
+        "preco": 163,
+        "total": 88354.15
+    },
+    {
+        "descricao": "cimento",
+        "quantidade": 2,
+        "preco": 146,
+        "total": 292
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 198,
+        "preco": 163,
+        "total": 32274
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 223.08,
+        "preco": 163,
+        "total": 36362.04
+    },
+    {
+        "descricao": "cimento",
+        "quantidade": 4,
+        "preco": 146,
+        "total": 584
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 40.56,
+        "preco": 163,
+        "total": 6611.280000000001
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 162.1,
+        "preco": 163,
+        "total": 26422.3
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 71.58,
+        "preco": 163,
+        "total": 11667.539999999999
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 7.82,
+        "preco": 163,
+        "total": 1274.66
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 23.58,
+        "preco": 163,
+        "total": 3843.5399999999995
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 34.02,
+        "preco": 163,
+        "total": 5545.26
+    },
+    {
+        "descricao": "26241006_2d_back ()",
+        "quantidade": 2,
+        "preco": 76,
+        "total": 152
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 1223.59,
+        "preco": 163,
+        "total": 199445.16999999998
+    },
+    {
+        "descricao": "cimento",
+        "quantidade": 7,
+        "preco": 146,
+        "total": 1022
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 129.62,
+        "preco": 163,
+        "total": 21128.06
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 58.56,
+        "preco": 163,
+        "total": 9545.28
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 1.6,
+        "preco": 163,
+        "total": 260.8
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 24.6,
+        "preco": 163,
+        "total": 4009.8
+    },
+    {
+        "descricao": "cimento",
+        "quantidade": 1,
+        "preco": 146,
+        "total": 146
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 0.33,
+        "preco": 163,
+        "total": 53.79
+    },
+    {
+        "descricao": "26210755_2d_left ()",
+        "quantidade": 2,
+        "preco": 76,
+        "total": 152
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 51.65,
+        "preco": 163,
+        "total": 8418.949999999999
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 68.03,
+        "preco": 163,
+        "total": 11088.89
+    },
+    {
+        "descricao": "22150758_2d_back ()",
+        "quantidade": 2,
+        "preco": 161,
+        "total": 322
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 459.44,
+        "preco": 163,
+        "total": 74888.72
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 69.49,
+        "preco": 163,
+        "total": 11326.869999999999
+    },
+    {
+        "descricao": "cimento",
+        "quantidade": 15,
+        "preco": 146,
+        "total": 2190
+    },
+    {
+        "descricao": "cabo elétrico",
+        "quantidade": 1787.63,
+        "preco": 163,
+        "total": 291383.69
+    },
+    {
+        "descricao": "cimento",
+        "quantidade": 7,
+        "preco": 146,
+        "total": 1022
+    }
+]
