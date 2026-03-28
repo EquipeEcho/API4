@@ -1,9 +1,0 @@
-{
-  "name": "echocad",
-  "private": true,
-  "scripts": {
-    "dev": "npm --prefix app/frontend run dev",
-    "build": "npm --prefix app/frontend run build",
-    "preview": "npm --prefix app/frontend run preview"
-  }
-}
