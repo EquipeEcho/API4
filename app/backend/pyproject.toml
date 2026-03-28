@@ -13,7 +13,9 @@ dependencies = [
     "psycopg2-binary (>=2.9.11,<3.0.0)",
     "openpyxl (>=3.1.5,<4.0.0)",
     "email-validator (>=2.3.0,<3.0.0)",
-    "alembic (>=1.18.4,<2.0.0)"
+    "alembic (>=1.18.4,<2.0.0)",
+    "ezdxf (>=1.4.3,<2.0.0)",
+    "pandas (>=3.0.1,<4.0.0)"
 ]
 
 [tool.poetry]
