@@ -1,14 +1,17 @@
+from typing import TYPE_CHECKING, List
+
 from sqlalchemy import String
-from sqlalchemy.orm import Mapped, mapped_as_dataclass, mapped_column, registry
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from src.models.base import Base
 
-table_registry = registry()
+if TYPE_CHECKING:
+    from .project import Project
 
 
-# mapeamento ORM para user
-@mapped_as_dataclass(table_registry)
-class User:
-    __tablename__ = 'user'
-    id: Mapped[int] = mapped_column(primary_key=True, init=False)
+class User(Base):
+    __tablename__ = 'users'
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     email: Mapped[str] = mapped_column(String(150), unique=True)
     password: Mapped[str] = mapped_column(String(255), nullable=False)
+    projects: Mapped[List["Project"]] = relationship(
+        "Project", back_populates="user", init=False)

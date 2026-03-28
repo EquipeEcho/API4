@@ -13,5 +13,7 @@ def get_session():
     session = SessionLocal()
     try:
         yield session
+    except:
+        session.rollback()
     finally:
         session.close()
