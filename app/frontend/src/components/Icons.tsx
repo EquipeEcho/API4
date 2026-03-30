@@ -14,6 +14,36 @@ export function EchoCadIcon() {
   );
 }
 
+export function MoonIcon() {
+  return (
+    <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+      <path
+        d="M18.5 14.2A7.5 7.5 0 0 1 9.8 5.5a7.75 7.75 0 1 0 8.7 8.7Z"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.8"
+      />
+    </svg>
+  );
+}
+
+export function SunIcon() {
+  return (
+    <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+      <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" strokeWidth="1.8" />
+      <path
+        d="M12 2.75v2.5m0 13.5v2.5m6.54-15.79-1.77 1.77M7.23 16.77l-1.77 1.77m13.29-6.54h2.5m-18 0h2.5m12.79 4.77 1.77 1.77M7.23 7.23 5.46 5.46"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeWidth="1.8"
+      />
+    </svg>
+  );
+}
+
 export function UploadIcon() {
   return (
     <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">

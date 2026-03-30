@@ -94,6 +94,9 @@ export function PrototypeProvider({ children }: PropsWithChildren) {
   const addUploadedFiles = (fileList: FileList | File[]): AddFilesResult => {
     const incomingFiles = Array.from(fileList);
     const parsedFiles = incomingFiles.map(buildUploadDocument);
+    const currentFiles = uploadedFilesRef.current;
+    const nextFiles = [...currentFiles];
+    const knownIds = new Set(currentFiles.map((file) => file.id));
     let duplicateCount = 0;
     let invalidCount = 0;
     let addedCount = 0;
@@ -101,30 +104,22 @@ export function PrototypeProvider({ children }: PropsWithChildren) {
     parsedFiles.forEach((file) => {
       if (!file) {
         invalidCount += 1;
+        return;
       }
+
+      if (knownIds.has(file.id)) {
+        duplicateCount += 1;
+        return;
+      }
+
+      knownIds.add(file.id);
+      nextFiles.push(file);
+      addedCount += 1;
     });
 
-    setUploadedFiles((currentFiles) => {
-      const nextFiles = [...currentFiles];
-      const knownIds = new Set(currentFiles.map((file) => file.id));
-
-      parsedFiles.forEach((file) => {
-        if (!file) {
-          return;
-        }
-
-        if (knownIds.has(file.id)) {
-          duplicateCount += 1;
-          return;
-        }
-
-        knownIds.add(file.id);
-        nextFiles.push(file);
-        addedCount += 1;
-      });
-
-      return nextFiles;
-    });
+    if (addedCount > 0) {
+      syncUploadedFiles(nextFiles);
+    }
 
     return { addedCount, duplicateCount, invalidCount };
   };

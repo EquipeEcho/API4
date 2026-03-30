@@ -8,22 +8,74 @@
   --radius-lg: 1.5rem;
   --color-bg: #f5f5f5;
   --color-surface: #ffffff;
+  --color-surface-soft: #f8f8f8;
+  --color-surface-muted: #f3f4f6;
+  --color-surface-raised: #fcfcfc;
   --color-neutral: #eaeaea;
   --color-border: #d9d9d9;
+  --color-border-strong: #c5c5c5;
   --color-text: #111111;
   --color-text-muted: #555555;
+  --color-text-soft: #697287;
+  --color-text-accent: #66748a;
+  --color-title-soft: #41506a;
   --color-blue: #3b82f6;
   --color-blue-strong: #2563eb;
+  --color-blue-soft: rgba(59, 130, 246, 0.08);
   --color-green: #22c55e;
   --color-green-strong: #16a34a;
+  --color-green-soft: rgba(34, 197, 94, 0.1);
   --color-red: #dc2626;
   --color-red-soft: #fef2f2;
+  --color-header-bg: rgba(245, 245, 245, 0.96);
   --color-overlay: rgba(17, 17, 17, 0.16);
+  --color-scrollbar: #cfcfcf;
+  --color-selection: rgba(59, 130, 246, 0.18);
+  --color-focus-ring: rgba(59, 130, 246, 0.45);
+  --app-background:
+    radial-gradient(circle at top left, rgba(59, 130, 246, 0.04), transparent 32%),
+    radial-gradient(circle at 84% 14%, rgba(34, 197, 94, 0.04), transparent 24%),
+    linear-gradient(180deg, #f7f8fb 0%, #f5f5f5 45%, #f1f2f4 100%);
   --shadow-soft: 0 8px 24px rgba(17, 17, 17, 0.04);
   --shadow-lift: 0 18px 38px rgba(17, 17, 17, 0.1);
   font-family: "Inter", "Segoe UI", sans-serif;
   color: var(--color-text);
   background: var(--color-bg);
+}
+
+[data-theme="dark"] {
+  --color-bg: #0b1119;
+  --color-surface: #111924;
+  --color-surface-soft: #151f2c;
+  --color-surface-muted: #182332;
+  --color-surface-raised: #0f1722;
+  --color-neutral: #1b2636;
+  --color-border: #273245;
+  --color-border-strong: #344259;
+  --color-text: #edf2ff;
+  --color-text-muted: #a6b2c5;
+  --color-text-soft: #93a0b4;
+  --color-text-accent: #8fa2bc;
+  --color-title-soft: #d5def0;
+  --color-blue: #6ea8ff;
+  --color-blue-strong: #8abcff;
+  --color-blue-soft: rgba(110, 168, 255, 0.16);
+  --color-green: #39d98a;
+  --color-green-strong: #63e6a5;
+  --color-green-soft: rgba(57, 217, 138, 0.12);
+  --color-red: #ff847c;
+  --color-red-soft: rgba(255, 132, 124, 0.14);
+  --color-header-bg: rgba(11, 17, 25, 0.82);
+  --color-overlay: rgba(2, 6, 23, 0.56);
+  --color-scrollbar: #314158;
+  --color-selection: rgba(110, 168, 255, 0.26);
+  --color-focus-ring: rgba(110, 168, 255, 0.55);
+  --app-background:
+    radial-gradient(circle at top left, rgba(59, 130, 246, 0.18), transparent 34%),
+    radial-gradient(circle at 86% 14%, rgba(57, 217, 138, 0.12), transparent 24%),
+    linear-gradient(180deg, #09111b 0%, #0d1622 45%, #0a111a 100%);
+  --shadow-soft: 0 16px 32px rgba(2, 6, 23, 0.28);
+  --shadow-lift: 0 24px 56px rgba(2, 6, 23, 0.42);
 }
 
 *,
@@ -33,13 +85,18 @@
 }
 
 html {
+  color-scheme: light;
   scroll-behavior: smooth;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
-  background: var(--color-bg);
+  background: var(--app-background);
   color: var(--color-text);
   text-rendering: optimizeLegibility;
 }
@@ -111,7 +168,7 @@ svg {
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: #cfcfcf transparent;
+  scrollbar-color: var(--color-scrollbar) transparent;
 }
 
 *::-webkit-scrollbar {
@@ -123,7 +180,7 @@ svg {
   border: 2px solid transparent;
   border-radius: 999px;
   background-clip: padding-box;
-  background-color: #cfcfcf;
+  background-color: var(--color-scrollbar);
 }
 
 *::-webkit-scrollbar-track {
@@ -131,14 +188,14 @@ svg {
 }
 
 ::selection {
-  background: rgba(59, 130, 246, 0.18);
+  background: var(--color-selection);
 }
 
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
 [role="button"]:focus-visible {
-  outline: 2px solid rgba(59, 130, 246, 0.45);
+  outline: 2px solid var(--color-focus-ring);
   outline-offset: 2px;
 }
 

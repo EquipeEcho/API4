@@ -42,13 +42,12 @@ export function ProcessingPage() {
       return;
     }
 
-    hasFinishedRef.current = true;
-
     const timeoutId = window.setTimeout(() => {
       if (hasFinishedRef.current) {
         return;
       }
 
+      hasFinishedRef.current = true;
       completeProcessing();
       navigate("/resultado", { replace: true });
     }, 500);

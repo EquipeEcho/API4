@@ -3,7 +3,7 @@
   top: 0;
   z-index: 20;
   border-bottom: 1px solid var(--color-border);
-  background: rgba(245, 245, 245, 0.96);
+  background: var(--color-header-bg);
   backdrop-filter: blur(10px);
 }
 
@@ -16,6 +16,13 @@
   align-items: center;
   justify-content: space-between;
   gap: 1.5rem;
+}
+
+.header-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-left: auto;
 }
 
 .brand {
@@ -71,7 +78,7 @@
 .nav-link:hover,
 .nav-link:focus-visible,
 .nav-link.is-active {
-  background: #ececec;
+  background: var(--color-neutral);
   color: var(--color-text);
   outline: none;
 }
@@ -85,11 +92,16 @@
 
 .section-heading__eyebrow {
   margin: 0;
-  color: #66748a;
+  color: var(--color-text-accent);
   font-size: 0.95rem;
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+}
+
+.theme-toggle {
+  min-width: 9.5rem;
+  justify-content: center;
 }
 
 .section-title {
