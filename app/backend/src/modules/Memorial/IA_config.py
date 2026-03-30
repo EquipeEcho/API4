@@ -3,34 +3,35 @@ import json
 import re
 import json
 
+
 class LLMClassifier:
     def __init__(self):
         self.url = "http://localhost:11434/api/generate"
 
     def classificar(self, nome, layer, texto, tipo_entidade):
         prompt = f"""
-    Você é um classificador de elementos de projetos CAD.
+        Você é um classificador de elementos de projetos CAD.
 
-    Classifique em UMA das categorias:
-    - parede
-    - cotas
-    - cobertura
-    - vão
-    - ambiente_nome
-    - elétrica
-    - hidro
-    - estrutural
-    - desconhecido
+        Classifique em UMA das categorias:
+        - parede
+        - cotas
+        - cobertura
+        - vão
+        - ambiente_nome
+        - elétrica
+        - hidro
+        - estrutural
+        - desconhecido
 
-    Responda em JSON:
-{{"tipo": "...", "confianca": 0.0}}
+        Responda em JSON:
+        {{"tipo": "...", "confianca": 0.0}}
 
-Elemento:
-nome: {nome}
-layer: {layer}
-texto: {texto}
-tipo: {tipo_entidade}
-"""
+        Elemento:
+        nome: {nome}
+        layer: {layer}
+        texto: {texto}
+        tipo: {tipo_entidade}
+        """
 
         try:
             response = requests.post(self.url, json={
@@ -59,7 +60,7 @@ def extrair_json(resposta):
         pass
 
     return None
-    
+
 
 def heuristica(elemento):
     nome = elemento["nome"].upper()
@@ -70,4 +71,3 @@ def heuristica(elemento):
         return "luminaria", 0.95
 
     return None
-

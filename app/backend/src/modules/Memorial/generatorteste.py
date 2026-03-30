@@ -1,5 +1,4 @@
 import ezdxf
-import pandas as pd
 import os
 import logging
 import math
@@ -427,8 +426,9 @@ def run_integration(dxf_file: str, template_file: str, output_file: str):
     print(f"Sucesso! Memorial gerado em: {arquivo_final}")
 
 if __name__ == "__main__":
-    DXF_INPUT = r"C:\Users\faelb\OneDrive\Desktop\EchoCAD\EchoCAD\app\backend\src\modules\ExtracaoDados\test.dxf"
-    TEMPLATE = r"C:\Users\faelb\OneDrive\Desktop\EchoCAD\EchoCAD\app\backend\src\templates\Memorial de Cálculo - Modelo.xlsx"
-    OUTPUT = r"C:\Users\faelb\OneDrive\Desktop\EchoCAD\EchoCAD\app\backend\src\templates\saida\memorial_preenchido.xlsx"
+    basepath = Path(__file__).parent
+    DXF_INPUT = str(Path.joinpath(basepath, "test.dxf"))
+    TEMPLATE = str(Path.joinpath(basepath,  "model_memorial.xlsx"))
+    OUTPUT = str(Path.joinpath(basepath, 'memorial_prenchido.xlsx'))
     
     run_integration(DXF_INPUT, TEMPLATE, OUTPUT)
