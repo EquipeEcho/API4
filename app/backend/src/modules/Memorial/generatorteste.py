@@ -2,12 +2,153 @@ import ezdxf
 import os
 import logging
 import math
+import re
+import unicodedata
 from pathlib import Path
 from dataclasses import dataclass, field
 from typing import Optional, List, Dict
 from openpyxl import load_workbook
 from openpyxl.worksheet.worksheet import Worksheet
 from IA_config import *
+import pandas as pd
+
+
+def _normalizar_texto(valor) -> str:
+    texto = "" if valor is None else str(valor)
+    texto = unicodedata.normalize("NFKD", texto)
+    texto = "".join(ch for ch in texto if not unicodedata.combining(ch))
+    texto = re.sub(r"\s+", " ", texto.replace("\n", " ").strip().lower())
+    return texto
+
+
+def _buscar_linha_cabecalho_sinapi(caminho):
+    bruto = pd.read_excel(caminho, header=None)
+
+    for idx, row in bruto.iterrows():
+        for valor in row.tolist():
+            if "descricao do insumo" in _normalizar_texto(valor):
+                return idx
+    return None
+
+
+def _preparar_preco_serie(serie):
+    if pd.api.types.is_numeric_dtype(serie):
+        return pd.to_numeric(serie, errors="coerce")
+
+    texto = serie.astype(str).str.strip()
+
+    # Se vier com vírgula decimal (pt-BR), converte para ponto.
+    mask_virgula_decimal = texto.str.contains(",", na=False)
+    texto.loc[mask_virgula_decimal] = (
+        texto.loc[mask_virgula_decimal]
+        .str.replace(".", "", regex=False)
+        .str.replace(",", ".", regex=False)
+    )
+
+    return pd.to_numeric(texto, errors="coerce")
+
+
+def _resolver_colunas_sinapi(tabela, uf_preferida="SP"):
+    cols_norm = {col: _normalizar_texto(col) for col in tabela.columns}
+    descricao_col = None
+
+    for col, col_norm in cols_norm.items():
+        if "descricao do insumo" in col_norm:
+            descricao_col = col
+            break
+
+    estados_validos = {
+        "AC", "AL", "AM", "AP", "BA", "CE", "DF", "ES", "GO", "MA", "MG", "MS", "MT",
+        "PA", "PB", "PE", "PI", "PR", "RJ", "RN", "RO", "RR", "RS", "SC", "SE", "SP", "TO"
+    }
+
+    uf_col = None
+    uf_preferida = (uf_preferida or "SP").upper()
+
+    for col in tabela.columns:
+        nome = str(col).strip().upper()
+        if nome == uf_preferida:
+            uf_col = col
+            break
+
+    if not uf_col:
+        for col in tabela.columns:
+            nome = str(col).strip().upper()
+            if nome in estados_validos:
+                uf_col = col
+                break
+
+    return descricao_col, uf_col
+
+
+def carregar_sinapi(caminho, uf_preferida="SP"):
+    linha_cabecalho = _buscar_linha_cabecalho_sinapi(caminho)
+
+    if linha_cabecalho is None:
+        logging.warning("Cabeçalho SINAPI não identificado automaticamente. Usando leitura padrão.")
+        tabela = pd.read_excel(caminho)
+    else:
+        tabela = pd.read_excel(caminho, header=linha_cabecalho)
+
+    tabela = tabela.dropna(how="all").dropna(axis=1, how="all")
+
+    descricao_col, preco_col = _resolver_colunas_sinapi(tabela, uf_preferida=uf_preferida)
+    tabela.attrs["descricao_col"] = descricao_col
+    tabela.attrs["preco_col"] = preco_col
+    tabela.attrs["uf_preferida"] = uf_preferida
+
+    logging.info(f"SINAPI carregada. Coluna descrição: {descricao_col} | Coluna preço: {preco_col}")
+    return tabela
+
+
+def buscar_preco_sinapi(descricao, tabela):
+    if not descricao or tabela is None or tabela.empty:
+        return None
+
+    descricao_col = tabela.attrs.get("descricao_col")
+    preco_col = tabela.attrs.get("preco_col")
+
+    if not descricao_col or not preco_col:
+        descricao_col, preco_col = _resolver_colunas_sinapi(
+            tabela,
+            uf_preferida=tabela.attrs.get("uf_preferida", "SP")
+        )
+
+    if not descricao_col or not preco_col:
+        logging.warning("Colunas da SINAPI não identificadas para busca de preços.")
+        return None
+
+    alvo = _normalizar_texto(descricao)
+    descricoes_norm = tabela[descricao_col].astype(str).map(_normalizar_texto)
+    precos_num = _preparar_preco_serie(tabela[preco_col])
+
+    mask_direta = descricoes_norm.str.contains(alvo, na=False)
+    candidatos = tabela[mask_direta & precos_num.notna()]
+
+    if not candidatos.empty:
+        return float(precos_num.loc[candidatos.index].iloc[0])
+
+    tokens = [t for t in alvo.split() if t not in {"de", "da", "do", "e", "para"}]
+    if not tokens:
+        return None
+
+    mask_tokens = descricoes_norm.map(lambda texto: all(tok in texto for tok in tokens))
+    candidatos = tabela[mask_tokens & precos_num.notna()]
+
+    if not candidatos.empty:
+        return float(precos_num.loc[candidatos.index].iloc[0])
+
+    return None
+
+MAP_SINAPI = {
+    "parede": "bloco cerâmico",
+    "vao": "porta madeira",
+    "hidro": "tubo pvc",
+    "cobertura": "telha cerâmica",
+    "parede_leve": "drywall",
+    "pilar": "concreto estrutural",
+    "viga": "concreto armado"
+}
 
 # ==============================
 # CONFIGURAÇÃO E LOGGING
@@ -63,10 +204,13 @@ class AlvenariaAdicional:
 class Ambiente:
     nome: str
     centro: tuple = (0, 0)
+    tipo: str = "parede"  
     dimensoes: Dimensoes = field(default_factory=Dimensoes)
     vao: Vao = field(default_factory=Vao)
     area_parede: float = 0
     area_liquida: float = 0
+    custo_unitario: float = 0
+    custo_total: float = 0
 
 @dataclass
 class ProjetoMemorial:
@@ -97,6 +241,12 @@ class CADExtractor:
             return (sum(xs)/len(xs), sum(ys)/len(ys))
 
         elif tipo in ["TEXT", "MTEXT"]:
+            return (entity.dxf.insert.x, entity.dxf.insert.y)
+
+        elif tipo in ["ARC", "CIRCLE"]:
+            return (entity.dxf.center.x, entity.dxf.center.y)
+
+        elif tipo == "INSERT":
             return (entity.dxf.insert.x, entity.dxf.insert.y)
 
         return None
@@ -198,7 +348,7 @@ class CADExtractor:
             return valor / 100   # cm → m
         return valor
     
-    def tipo_layer_identificado(layer):
+    def tipo_layer_identificado(self, layer):
         layer = layer.upper()
 
         if "HIDROSSANITÁRIO" in layer:
@@ -236,9 +386,10 @@ class CADExtractor:
         if layer in LAYERS_IGNORADOS:
             return "ignorar"
         
-        if CADExtractor.tipo_layer_identificado(layer) != "desconhecido":
-            return CADExtractor.tipo_layer_identificado(layer)
-        
+        tipo = self.tipo_layer_identificado(layer)
+
+        if tipo != "desconhecido":
+            return tipo
        # if CADExtractor.deve_ignorar_layer(layer):
         #    return "ignorar"
         
@@ -284,28 +435,31 @@ class CADExtractor:
                 if nome and len(nome) > 2 and nome not in ambientes_dict:
                     # Limpar formatação MTEXT se houver
                     if '\\P' in nome: nome = nome.split('\\P')[0]
-                    ambientes_dict[nome] = Ambiente(nome=nome)
+                    centro_texto = self._get_centro_entidade(entity) or (0, 0)
+                    ambientes_dict[nome] = Ambiente(nome=nome, centro=centro_texto)
 
         if not ambientes_dict:
             ambientes_dict["Ambiente 1"] = Ambiente(nome="Ambiente 1")
 
         # 2. Agrupar medidas por tipo de layer (Lógica simplificada para MVP)
-        primeiro_ambiente = list(ambientes_dict.values())[0]
         ambientes_lista = list(ambientes_dict.values())
 
-        pos = entity.dxf.insert
-        ambientes_dict[nome] = Ambiente(
-            nome=nome,
-            centro=(pos.x, pos.y)
-        )
+      
 
         for entity in msp:
             
             
             layer = entity.dxf.layer.upper()
             tipo_mapeado = self.classificar_elemento(entity)
-            centro = self._get_centro_entidade(entity)
             logging.info(f"[CLASS] {layer} -> {tipo_mapeado} | {entity.dxftype()}")
+
+            if tipo_mapeado == "desconhecido":
+                continue
+
+            if tipo_mapeado == "ignorar":
+                continue
+
+            centro = self._get_centro_entidade(entity)
 
             if not centro:
                 continue
@@ -314,12 +468,9 @@ class CADExtractor:
 
             if not ambiente:
                 continue
-            
-            if tipo_mapeado == "desconhecido":
-                continue
-            
-            if tipo_mapeado == "ignorar":
-                continue
+
+            if tipo_mapeado in ["parede", "hidro", "vao", "cobertura", "parede_leve", "laje"]:
+                ambiente.tipo = tipo_mapeado
 
             if tipo_mapeado == "parede":
                 comp = self._calcular_comprimento(entity)
@@ -335,25 +486,24 @@ class CADExtractor:
                 ambiente.vao.comprimento += comp
                 ambiente.vao.tipo = "Esquadrias"
 
-        ambiente = primeiro_ambiente
+        for ambiente in ambientes_lista:
+            # Normalizar valores por ambiente
+            comprimento = self._normalizar_unidade(ambiente.dimensoes.comprimento or 0)
+            vao_comp = self._normalizar_unidade(ambiente.vao.comprimento or 0)
 
-        # Normalizar valores
-        comprimento = self._normalizar_unidade(ambiente.dimensoes.comprimento or 0)
-        vao_comp = self._normalizar_unidade(ambiente.vao.comprimento or 0)
+            altura = ambiente.dimensoes.altura or 3.0
+            altura_vao = ambiente.vao.altura or 2.1
 
-        altura = ambiente.dimensoes.altura or 3.0
-        altura_vao = ambiente.vao.altura or 2.1
+            # Cálculo de áreas
+            area_parede = comprimento * altura
+            area_vao = vao_comp * altura_vao
 
-        # Cálculo de áreas
-        area_parede = comprimento * altura
-        area_vao = vao_comp * altura_vao
+            ambiente.area_parede = round(area_parede, 2)
+            ambiente.area_liquida = round(max(area_parede - area_vao, 0), 2)
 
-        ambiente.area_parede = round(area_parede, 2)
-        ambiente.area_liquida = round(max(area_parede - area_vao, 0), 2)
-
-        # Atualizar valores normalizados
-        ambiente.dimensoes.comprimento = round(comprimento, 2)
-        ambiente.vao.comprimento = round(vao_comp, 2)
+            # Atualizar valores normalizados
+            ambiente.dimensoes.comprimento = round(comprimento, 2)
+            ambiente.vao.comprimento = round(vao_comp, 2)
             
 
         # Limitar para os primeiros 20 ambientes para caber no template
@@ -368,15 +518,27 @@ class CADExtractor:
 class LevantamentoCampoMapper:
     START_ROW = 8
     END_ROW = 27
+    PRECO_UNITARIO_COL = "T"
+    PRECO_TOTAL_COL = "U"
 
     def __init__(self, worksheet: Worksheet):
         self.ws = worksheet
 
     def preencher_titulo_projeto(self, nome_projeto: str) -> None:
         self.ws["B1"] = nome_projeto
+        self.ws[f"{self.PRECO_UNITARIO_COL}7"] = "Preço Unitário SINAPI"
+        self.ws[f"{self.PRECO_TOTAL_COL}7"] = "Preço Total SINAPI"
 
     def preencher_ambientes(self, ambientes: List[Ambiente]) -> None:
-        for index, ambiente in enumerate(ambientes):
+        limite = self.END_ROW - self.START_ROW + 1
+
+        if len(ambientes) > limite:
+            logging.warning(
+                f"Template suporta {limite} ambientes. "
+                f"Serão exportados somente os {limite} primeiros de {len(ambientes)}."
+            )
+
+        for index, ambiente in enumerate(ambientes[:limite]):
             row = self.START_ROW + index
 
             self.ws[f"B{row}"] = ambiente.nome
@@ -389,6 +551,9 @@ class LevantamentoCampoMapper:
 
             self.ws[f"L{row}"] = ambiente.area_parede
             self.ws[f"M{row}"] = ambiente.area_liquida
+
+            self.ws[f"{self.PRECO_UNITARIO_COL}{row}"] = getattr(ambiente, 'custo_unitario', 0)
+            self.ws[f"{self.PRECO_TOTAL_COL}{row}"] = getattr(ambiente, 'custo_total', 0)
 
 class MemorialGenerator:
     SHEET_NAME = "Levantamento Campo"
@@ -414,8 +579,45 @@ class MemorialGenerator:
 def run_integration(dxf_file: str, template_file: str, output_file: str):
     print(f"Processando {os.path.basename(dxf_file)}...")
     
+    basepath = Path(__file__).parent
+    sinapi_path = basepath / "sinapi.xlsx"
+
+    sinapi = carregar_sinapi(sinapi_path)
+
     extractor = CADExtractor(dxf_file)
     ambientes = extractor.extrair_dados_reais()
+    print("Ambientes encontrados:", len(ambientes))
+
+    for a in ambientes:
+        print(a.nome, a.area_liquida, a.tipo)
+    
+    for ambiente in ambientes:
+
+        categoria = ambiente.tipo
+
+        material = MAP_SINAPI.get(categoria)
+
+        if not material:
+            logging.warning(
+                f"[SINAPI] Ambiente '{ambiente.nome}' sem mapeamento de material para categoria '{categoria}'."
+            )
+            continue
+
+        preco = buscar_preco_sinapi(material, sinapi)
+
+        if preco is not None:
+            ambiente.custo_unitario = preco
+            ambiente.custo_total = preco * (ambiente.area_liquida or 0)
+            logging.info(
+                f"[SINAPI] Ambiente '{ambiente.nome}' | produto '{material}' | "
+                f"preço unitário {ambiente.custo_unitario:.6f} | total {ambiente.custo_total:.6f}"
+            )
+        else:
+            ambiente.custo_unitario = 0
+            ambiente.custo_total = 0
+            logging.warning(
+                f"[SINAPI] Produto '{material}' não encontrado para ambiente '{ambiente.nome}'."
+            )
     
     nome_projeto = os.path.basename(dxf_file).replace(".dxf", "").title()
     projeto = ProjetoMemorial(nome_projeto=nome_projeto, ambientes=ambientes)
@@ -427,8 +629,9 @@ def run_integration(dxf_file: str, template_file: str, output_file: str):
 
 if __name__ == "__main__":
     basepath = Path(__file__).parent
+    src_path = basepath.parent.parent
     DXF_INPUT = str(Path.joinpath(basepath, "test.dxf"))
     TEMPLATE = str(Path.joinpath(basepath,  "model_memorial.xlsx"))
-    OUTPUT = str(Path.joinpath(basepath, 'memorial_prenchido.xlsx'))
+    OUTPUT = str(Path.joinpath(src_path,'modules', 'Memorial', 'memorial_preenchido.xlsx'))
     
     run_integration(DXF_INPUT, TEMPLATE, OUTPUT)
