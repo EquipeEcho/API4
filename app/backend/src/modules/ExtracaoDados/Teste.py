@@ -1,17 +1,10 @@
-import ezdxf
-from ezdxf.addons import odafc
 import pandas as pd
-
-# Configuração do ODA (Caminho do exe do ODA)
-# CAMINHO_ODA = r"C:\Program Files\ODA\ODAFileConverter 27.1.0\ODAFileConverter.exe"
-# ezdxf.options.set("odafc-addon", "win_exec_path", CAMINHO_ODA)
-
+from ezdxf.filemanagement import readfile
 
 #dwg_path é o caminho do arquivo dwg que sera precessado
 def extrair_dados_orcamento(dwg_path):
     try:
-        # doc = odafc.readfile(dwg_path)
-        doc = ezdxf.readfile(dwg_path)
+        doc = readfile(dwg_path)
     except Exception as e:
         print(f"Erro: {e}")
         return None

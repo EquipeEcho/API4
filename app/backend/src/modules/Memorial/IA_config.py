@@ -1,17 +1,15 @@
-import requests
 import json
 import re
 import json
 
+from agno.agent import Agent
+from agno.models.ollama import Ollama
 
-class LLMClassifier:
-    def __init__(self):
-        self.url = "http://localhost:11434/api/generate"
-
-    def classificar(self, nome, layer, texto, tipo_entidade):
-        prompt = f"""
+classifier = Agent(
+    model=Ollama(id="qwen2.5:3b"),
+    instructions=[
+        '''
         Você é um classificador de elementos de projetos CAD.
-
         Classifique em UMA das categorias:
         - parede
         - cotas
@@ -24,29 +22,61 @@ class LLMClassifier:
         - desconhecido
 
         Responda em JSON:
-        {{"tipo": "...", "confianca": 0.0}}
+        {{"tipo": "...", "confianca": 0.0}}'''],
+    markdown=False
+)
 
-        Elemento:
-        nome: {nome}
-        layer: {layer}
-        texto: {texto}
-        tipo: {tipo_entidade}
-        """
 
-        try:
-            response = requests.post(self.url, json={
-                "model": "qwen2.5:3b",
-                "prompt": prompt,
-                "stream": False
-            })
+def classificar(nome: str, layer: str, texto: str, tipo_entidade: str):
+    """Executa o LLM com os parâmetros fornecidos."""
+    response = classifier.run(
+        f"Elemento: nome: {nome} layer: {layer} texto: {texto} tipo: {tipo_entidade}", stream=True)
+    return extrair_json(response)
 
-            resposta = response.json()["response"]
-            data = extrair_json(resposta)
-            print(f"Resposta do LLM: {data}")
-            return data.get("tipo", "desconhecido"), data.get("confianca", 0.0)
 
-        except:
-            return "desconhecido", 0.0
+# class LLMClassifier:
+#     def __init__(self):
+#         self.url = "http://localhost:11434/api/generate"
+
+#     def classificar(self, nome, layer, texto, tipo_entidade):
+#         prompt = f"""
+#         Você é um classificador de elementos de projetos CAD.
+
+#         Classifique em UMA das categorias:
+#         - parede
+#         - cotas
+#         - cobertura
+#         - vão
+#         - ambiente_nome
+#         - elétrica
+#         - hidro
+#         - estrutural
+#         - desconhecido
+
+#         Responda em JSON:
+#         {{"tipo": "...", "confianca": 0.0}}
+
+#         Elemento:
+#         nome: {nome}
+#         layer: {layer}
+#         texto: {texto}
+#         tipo: {tipo_entidade}
+#         """
+
+#         try:
+#             response = requests.post(self.url, json={
+#                 "model": "qwen2.5:3b",
+#                 "prompt": prompt,
+#                 "stream": False
+#             })
+
+#             resposta = response.json()["response"]
+#             data = extrair_json(resposta)
+#             print(f"Resposta do LLM: {data}")
+#             return data.get("tipo", "desconhecido"), data.get("confianca", 0.0)
+
+#         except:
+#             return "desconhecido", 0.0
 
 
 def extrair_json(resposta):

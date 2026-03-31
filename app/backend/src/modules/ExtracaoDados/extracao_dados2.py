@@ -1,7 +1,6 @@
 import ezdxf
 from ezdxf.addons import odafc
 import pandas as pd
-import os
 import logging
 import math
 
