@@ -1,6 +1,5 @@
-from dataclasses import dataclass, field
-import json
-import math
+from dataclasses import dataclass
+
 
 @dataclass
 class Parede:
@@ -13,7 +12,8 @@ class Parede:
 
     def volume(self):
         return self.area() * self.espessura
-    
+
+
 class MotorCalculo:
     def __init__(self):
         self.regras = []
@@ -28,7 +28,8 @@ class MotorCalculo:
                 if regra.aplica(entidade):
                     resultados.append(regra.calcular(entidade))
         return resultados
-    
+
+
 class Calculadora:
 
     def calcular_area_parede(self, parede: Parede):
@@ -37,11 +38,12 @@ class Calculadora:
     def calcular_volume_concreto(self, parede: Parede):
         return parede.volume()
 
+
 class RegraCalculo:
     def calcular(self, entidade):
         raise NotImplementedError
-    
+
+
 class CalculoAreaParede(RegraCalculo):
-    def calcular(self, parede: Parede):
-        return parede.comprimento * parede.altura
-    
+    def calcular(self, entidade: Parede):
+        return entidade.comprimento * entidade.altura

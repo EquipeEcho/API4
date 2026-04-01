@@ -1,4 +1,3 @@
-import ezdxf
 import os
 import logging
 import math
@@ -11,6 +10,9 @@ from openpyxl import load_workbook
 from openpyxl.worksheet.worksheet import Worksheet
 from IA_config import *
 import pandas as pd
+import ezdxf
+from ezdxf import readfile
+from ezdxf.document import Drawing
 
 
 def _normalizar_texto(valor) -> str:
@@ -179,12 +181,15 @@ MAP_LAYER = {
 # ==============================
 # MODELOS DE DADOS (MEMORIAL)
 # ==============================
+
+
 @dataclass
 class Dimensoes:
     comprimento: Optional[float] = None
     largura: Optional[float] = None
     altura: Optional[float] = 3.0  # Altura padrão (pé-direito)
     espessura: Optional[float] = 0.15
+
 
 @dataclass
 class Vao:
@@ -193,12 +198,14 @@ class Vao:
     altura: Optional[float] = 2.1
     espessura: Optional[float] = 0.15
 
+
 @dataclass
 class AlvenariaAdicional:
     tipo: Optional[str] = None
     comprimento: Optional[float] = None
     altura: Optional[float] = None
     espessura: Optional[float] = None
+
 
 @dataclass
 class Ambiente:
@@ -220,9 +227,11 @@ class ProjetoMemorial:
 # ==============================
 # EXTRAÇÃO CAD
 # ==============================
+
+
 class CADExtractor:
     def __init__(self, file_path: str):
-        self.classifier = LLMClassifier()
+        self.classifier = classificar
         self.file_path = file_path
         self.doc = self._load_file()
 
@@ -253,7 +262,7 @@ class CADExtractor:
 
     def _distancia(self, p1, p2):
         return math.hypot(p1[0] - p2[0], p1[1] - p2[1])
-    
+
     def _encontrar_ambiente_mais_proximo(self, ponto, ambientes):
         menor_dist = float("inf")
         ambiente_escolhido = None
@@ -266,10 +275,11 @@ class CADExtractor:
 
         return ambiente_escolhido
 
-    def _load_file(self):
+    def _load_file(self) -> Drawing | None:
+        """Lê e retorna o arquivo DXF carregado na memória."""
         try:
             logging.info(f"Carregando arquivo: {self.file_path}")
-            return ezdxf.readfile(self.file_path)
+            return readfile(self.file_path)
         except Exception as e:
             logging.error(f"Erro ao abrir arquivo CAD: {e}")
             return None
@@ -281,7 +291,8 @@ class CADExtractor:
                 return (entity.dxf.start - entity.dxf.end).magnitude
             elif tipo == 'LWPOLYLINE':
                 pontos = list(entity.get_points())
-                if len(pontos) < 2: return 0
+                if len(pontos) < 2:
+                    return 0
                 comprimento = 0
                 for i in range(len(pontos) - 1):
                     x1, y1 = pontos[i][0], pontos[i][1]
@@ -290,17 +301,17 @@ class CADExtractor:
                 return comprimento
             elif tipo == 'ARC':
                 raio = entity.dxf.radius
-                ang = math.radians(entity.dxf.end_angle - entity.dxf.start_angle)
-                if ang < 0: ang += 2 * math.pi
+                ang = math.radians(entity.dxf.end_angle -
+                                   entity.dxf.start_angle)
+                if ang < 0:
+                    ang += 2 * math.pi
                 return raio * ang
             elif tipo == 'CIRCLE':
                 return 2 * math.pi * entity.dxf.radius
             return 0
         except Exception as e:
             return 0
-        
 
-        
     """def deve_ignorar_layer(layer):
         layer = layer.upper()
 
@@ -336,7 +347,7 @@ class CADExtractor:
             return True 
 
         return False"""
-    
+
     def _normalizar_unidade(self, valor):
         if not valor:
             return 0
@@ -373,11 +384,9 @@ class CADExtractor:
             return "projecao"
         if "CIRCUITO" in layer:
             return "eletrica"
-        
+
         return "desconhecido"
-        
-        
-    
+
     def classificar_elemento(self, entity):
         layer = entity.dxf.layer.upper()
 
@@ -392,11 +401,11 @@ class CADExtractor:
             return tipo
        # if CADExtractor.deve_ignorar_layer(layer):
         #    return "ignorar"
-        
+
         if layer not in MAP_LAYER:
             return "ignorar"
-        
-        # Heurística 
+
+        # Heurística
         tipo = MAP_LAYER.get(layer)
         if tipo:
             return tipo
@@ -408,30 +417,27 @@ class CADExtractor:
         if entity.dxftype() in ["TEXT", "MTEXT"]:
             texto = entity.dxf.text if entity.dxftype() == "TEXT" else entity.text
 
-        tipo_llm, conf = self.classifier.classificar(
+        conf = classificar(
             nome=nome,
             layer=layer,
             texto=texto,
             tipo_entidade=entity.dxftype()
         )
 
-        
-        logging.info(f"Classificação IA: {tipo_llm} (confiança: {conf:.2f})")
-
-        return tipo_llm
-
+        logging.info(f"Classificação IA: (confiança: {conf:.2f})")
 
     def extrair_dados_reais(self) -> List[Ambiente]:
-        if not self.doc: return []
+        if not self.doc:
+            return []
         msp = self.doc.modelspace()
-        self.classifier = LLMClassifier()
-        
+
         # 1. Identificar nomes de ambientes (TEXT/MTEXT nas layers mapeadas)
         ambientes_dict: Dict[str, Ambiente] = {}
         for entity in msp.query('TEXT MTEXT'):
             layer = entity.dxf.layer.upper()
             if MAP_LAYER.get(layer) == "ambiente_nome":
-                nome = (entity.dxf.text if entity.dxftype() == 'TEXT' else entity.text).strip()
+                nome = (entity.dxf.text if entity.dxftype() ==
+                        'TEXT' else getattr(entity, 'TEXT', '')).strip()
                 if nome and len(nome) > 2 and nome not in ambientes_dict:
                     # Limpar formatação MTEXT se houver
                     if '\\P' in nome: nome = nome.split('\\P')[0]
@@ -447,8 +453,7 @@ class CADExtractor:
       
 
         for entity in msp:
-            
-            
+
             layer = entity.dxf.layer.upper()
             tipo_mapeado = self.classificar_elemento(entity)
             logging.info(f"[CLASS] {layer} -> {tipo_mapeado} | {entity.dxftype()}")
@@ -464,7 +469,8 @@ class CADExtractor:
             if not centro:
                 continue
 
-            ambiente = self._encontrar_ambiente_mais_proximo(centro, ambientes_lista)
+            ambiente = self._encontrar_ambiente_mais_proximo(
+                centro, ambientes_lista)
 
             if not ambiente:
                 continue
@@ -477,8 +483,7 @@ class CADExtractor:
                 if not ambiente.dimensoes.comprimento:
                     ambiente.dimensoes.comprimento = 0
                 ambiente.dimensoes.comprimento += comp
-                
-                
+
             elif tipo_mapeado == "vao":
                 comp = self._calcular_comprimento(entity)
                 if not ambiente.vao.comprimento:
@@ -507,10 +512,9 @@ class CADExtractor:
             
 
         # Limitar para os primeiros 20 ambientes para caber no template
-        
+
         return list(ambientes_dict.values())[:20]
 
-    
 
 # ==============================
 # GERAÇÃO EXCEL
@@ -567,7 +571,7 @@ class MemorialGenerator:
         mapper = LevantamentoCampoMapper(ws)
         mapper.preencher_titulo_projeto(projeto.nome_projeto)
         mapper.preencher_ambientes(projeto.ambientes)
-        
+
         out_p = Path(output_path)
         out_p.parent.mkdir(parents=True, exist_ok=True)
         wb.save(out_p)
@@ -576,6 +580,8 @@ class MemorialGenerator:
 # ==============================
 # EXECUÇÃO
 # ==============================
+
+
 def run_integration(dxf_file: str, template_file: str, output_file: str):
     print(f"Processando {os.path.basename(dxf_file)}...")
     
@@ -621,11 +627,12 @@ def run_integration(dxf_file: str, template_file: str, output_file: str):
     
     nome_projeto = os.path.basename(dxf_file).replace(".dxf", "").title()
     projeto = ProjetoMemorial(nome_projeto=nome_projeto, ambientes=ambientes)
-    
+
     generator = MemorialGenerator(template_file)
     arquivo_final = generator.generate(projeto, output_file)
-    
+
     print(f"Sucesso! Memorial gerado em: {arquivo_final}")
+
 
 if __name__ == "__main__":
     basepath = Path(__file__).parent
