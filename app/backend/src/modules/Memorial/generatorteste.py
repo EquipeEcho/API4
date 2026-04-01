@@ -312,42 +312,6 @@ class CADExtractor:
         except Exception as e:
             return 0
 
-    """def deve_ignorar_layer(layer):
-        layer = layer.upper()
-
-        #Alguns desses elementos nós vamos ingnorar por enquanto, pois não são relevantes para o memorial de cálculo estrutural atual.
-
-        if "SIMBOLO" in layer:
-            return True
-        if "QUADRO" in layer:
-            return True
-        if "DETALHE" in layer:
-            return True
-        if "MOBILIÁRIO" in layer:
-            return True
-        if "DESNÍVEL" in layer:
-            return True
-        if "COTAS" in layer:
-            return True
-        if "COTA" in layer:
-            return True
-        if "CERCAMENTOS" in layer:
-            return True
-        if "CALÇADAS" in layer:
-            return True
-        if "CONTRA INCÊNDIO" in layer:
-            return True
-        if "TELEFONIA" in layer:
-            return True
-        if "DRENAGEM" in layer:             
-            return True
-        if "BAR" in layer:
-            return True
-        if "ESTRUTURAL - FUNDAÇÕES" in layer:
-            return True 
-
-        return False"""
-
     def _normalizar_unidade(self, valor):
         if not valor:
             return 0
@@ -399,8 +363,6 @@ class CADExtractor:
 
         if tipo != "desconhecido":
             return tipo
-       # if CADExtractor.deve_ignorar_layer(layer):
-        #    return "ignorar"
 
         if layer not in MAP_LAYER:
             return "ignorar"
@@ -447,7 +409,7 @@ class CADExtractor:
         if not ambientes_dict:
             ambientes_dict["Ambiente 1"] = Ambiente(nome="Ambiente 1")
 
-        # 2. Agrupar medidas por tipo de layer (Lógica simplificada para MVP)
+        # 2. Agrupar medidas por tipo de layer
         ambientes_lista = list(ambientes_dict.values())
 
       
@@ -456,7 +418,7 @@ class CADExtractor:
 
             layer = entity.dxf.layer.upper()
             tipo_mapeado = self.classificar_elemento(entity)
-            logging.info(f"[CLASS] {layer} -> {tipo_mapeado} | {entity.dxftype()}")
+            #logging.info(f"[CLASS] {layer} -> {tipo_mapeado} | {entity.dxftype()}")
 
             if tipo_mapeado == "desconhecido":
                 continue
