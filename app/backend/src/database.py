@@ -8,12 +8,12 @@ engine = create_engine('sqlite:///database.db', echo=True) # Usando sqlite enqua
 # postgresql+psycopg2://usuario:senha@db:5432/nome_do_banco
 SessionLocal = sessionmaker(bind=engine)
 
-@contextmanager
 def get_session():
     session = SessionLocal()
     try:
         yield session
     except:
         session.rollback()
+        raise
     finally:
         session.close()

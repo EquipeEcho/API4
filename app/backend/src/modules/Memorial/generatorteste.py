@@ -8,7 +8,7 @@ from dataclasses import dataclass, field
 from typing import Optional, List, Dict
 from openpyxl import load_workbook
 from openpyxl.worksheet.worksheet import Worksheet
-from IA_config import *
+from .IA_config import *
 import pandas as pd
 import ezdxf
 from ezdxf import readfile
