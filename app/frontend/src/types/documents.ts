@@ -8,6 +8,7 @@ export interface UploadDocument {
   id: string;
   name: string;
   kind: FileKind;
+  file: File;
 }
 
 export interface PreviewTableRow {

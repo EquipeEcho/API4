@@ -51,6 +51,7 @@ function buildUploadDocument(file: File): UploadDocument | null {
     id: `${file.name}-${file.size}-${file.lastModified}`,
     name: file.name,
     kind,
+    file: file
   };
 }
 
