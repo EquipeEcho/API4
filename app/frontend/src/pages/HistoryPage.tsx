@@ -11,6 +11,7 @@ import { SurfaceCard } from "../components/SurfaceCard";
 import { usePrototype } from "../providers/PrototypeProvider";
 import { HistoryDocument } from "../types/documents";
 
+// Lista os documentos gerados anteriormente.
 export function HistoryPage() {
   const navigate = useNavigate();
   const {
@@ -23,11 +24,13 @@ export function HistoryPage() {
   const [pendingRemoval, setPendingRemoval] = useState<HistoryDocument | null>(null);
   const [confirmBundleDownload, setConfirmBundleDownload] = useState(false);
 
+  // Abre o documento escolhido na tela de resultado.
   const handleOpenPreview = (documentId: string) => {
     openHistoryPreview(documentId);
     navigate("/resultado");
   };
 
+  // Confirma a remocao do item selecionado.
   const handleRemove = () => {
     if (!pendingRemoval) {
       return;
@@ -37,6 +40,7 @@ export function HistoryPage() {
     setPendingRemoval(null);
   };
 
+  // Dispara o download do pacote completo do historico.
   const handleBundleDownload = () => {
     downloadHistoryBundle();
     setConfirmBundleDownload(false);

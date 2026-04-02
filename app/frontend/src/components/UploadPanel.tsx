@@ -14,6 +14,7 @@ import {
   UploadIcon,
 } from "./Icons";
 
+// Monta a mensagem de status apos selecionar arquivos.
 function buildUploadStatusMessage(
   addedCount: number,
   duplicateCount: number,
@@ -50,6 +51,7 @@ function buildUploadStatusMessage(
   };
 }
 
+// Controla a selecao e o envio dos arquivos do frontend.
 export function UploadPanel() {
   const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -69,6 +71,7 @@ export function UploadPanel() {
     showToast,
   } = usePrototype();
 
+  // Processa os arquivos escolhidos e atualiza o status.
   const applyFileSelection = (files: FileList | File[]) => {
     const result = addUploadedFiles(files);
     const nextTotalCount = uploadedFiles.length + result.addedCount;
@@ -94,6 +97,7 @@ export function UploadPanel() {
     }
   };
 
+  // Abre o seletor nativo de arquivos.
   const openFilePicker = () => {
     if (!inputRef.current) {
       return;
@@ -103,6 +107,7 @@ export function UploadPanel() {
     inputRef.current.click();
   };
 
+  // Trata arquivos escolhidos pelo input.
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) {
       return;
@@ -111,12 +116,14 @@ export function UploadPanel() {
     applyFileSelection(event.target.files);
   };
 
+  // Trata arquivos soltos na area de upload.
   const handleDrop = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     setIsDragging(false);
     applyFileSelection(event.dataTransfer.files);
   };
 
+  // Remove o arquivo apos confirmacao do usuario.
   const handleRemoveConfirm = () => {
     if (!filePendingRemoval) {
       return;
@@ -127,6 +134,7 @@ export function UploadPanel() {
     setFilePendingRemoval(null);
   };
 
+  // Envia os arquivos selecionados para o backend.
   const handleSendConfirm = async () => {
     setShowSendConfirmation(false);
 

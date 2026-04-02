@@ -9,6 +9,7 @@ import { usePrototype } from "../providers/PrototypeProvider";
 
 const progressSteps = [12, 26, 39, 57, 71, 86, 100];
 
+// Mostra o andamento do processamento simulado.
 export function ProcessingPage() {
   const navigate = useNavigate();
   const { uploadedFiles, completeProcessing } = usePrototype();

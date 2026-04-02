@@ -1,6 +1,7 @@
 import { SectionTitle } from "../components/SectionTitle";
 import { UploadPanel } from "../components/UploadPanel";
 
+// Exibe a tela inicial com a area de upload.
 export function HomePage() {
   return (
     <main className="page page--home">

@@ -40,6 +40,7 @@ type PrototypeContextValue = {
 
 const PrototypeContext = createContext<PrototypeContextValue | null>(null);
 
+// Converte um arquivo valido para o formato usado no upload.
 function buildUploadDocument(file: File): UploadDocument | null {
   const kind = getFileKindFromName(file.name);
 
@@ -55,6 +56,7 @@ function buildUploadDocument(file: File): UploadDocument | null {
   };
 }
 
+// Centraliza o estado do prototipo e das simulacoes.
 export function PrototypeProvider({ children }: PropsWithChildren) {
   const [uploadedFiles, setUploadedFiles] = useState<UploadDocument[]>([]);
   const uploadedFilesRef = useRef<UploadDocument[]>([]);
@@ -79,6 +81,7 @@ export function PrototypeProvider({ children }: PropsWithChildren) {
     };
   }, [toast]);
 
+  // Exibe uma notificacao temporaria na interface.
   const showToast = (message: string, tone: ToastTone = "info") => {
     setToast({
       id: Date.now(),
@@ -87,11 +90,13 @@ export function PrototypeProvider({ children }: PropsWithChildren) {
     });
   };
 
+  // Mantem o estado e a referencia de uploads sincronizados.
   const syncUploadedFiles = (nextFiles: UploadDocument[]) => {
     uploadedFilesRef.current = nextFiles;
     setUploadedFiles(nextFiles);
   };
 
+  // Adiciona apenas arquivos validos e nao duplicados.
   const addUploadedFiles = (fileList: FileList | File[]): AddFilesResult => {
     const incomingFiles = Array.from(fileList);
     const parsedFiles = incomingFiles.map(buildUploadDocument);
@@ -125,16 +130,19 @@ export function PrototypeProvider({ children }: PropsWithChildren) {
     return { addedCount, duplicateCount, invalidCount };
   };
 
+  // Remove um arquivo da lista de upload.
   const removeUploadedFile = (documentId: string) => {
     syncUploadedFiles(
       uploadedFilesRef.current.filter((document) => document.id !== documentId)
     );
   };
 
+  // Limpa todos os arquivos pendentes de upload.
   const clearUploadedFiles = () => {
     syncUploadedFiles([]);
   };
 
+  // Gera o documento final e atualiza o historico.
   const completeProcessing = () => {
     const filesToProcess = uploadedFilesRef.current;
 
@@ -153,6 +161,7 @@ export function PrototypeProvider({ children }: PropsWithChildren) {
     return generatedDocument;
   };
 
+  // Abre um documento do historico na area de resultado.
   const openHistoryPreview = (documentId: string) => {
     const historyDocument = historyDocuments.find(
       (document) => document.id === documentId
@@ -166,6 +175,7 @@ export function PrototypeProvider({ children }: PropsWithChildren) {
     setCurrentDocument(historyDocument.document);
   };
 
+  // Remove um item do historico salvo.
   const removeHistoryDocument = (documentId: string) => {
     setHistoryDocuments((currentHistory) =>
       currentHistory.filter((document) => document.id !== documentId)
@@ -173,6 +183,7 @@ export function PrototypeProvider({ children }: PropsWithChildren) {
     showToast("Documento removido do histórico.", "info");
   };
 
+  // Simula o download de todos os itens do historico.
   const downloadHistoryBundle = () => {
     if (historyDocuments.length === 0) {
       showToast("Não há documentos no histórico para download.", "error");
@@ -182,10 +193,12 @@ export function PrototypeProvider({ children }: PropsWithChildren) {
     showToast("Pacote do histórico pronto para download.", "success");
   };
 
+  // Simula a abertura de um arquivo para visualizacao.
   const simulatePreviewAction = (fileName: string) => {
     showToast(`Pré-visualização simulada: ${fileName}.`, "info");
   };
 
+  // Simula o download de um arquivo gerado.
   const downloadDocumentAsset = (label: string) => {
     const assetLabel = label.includes(".") ? "arquivo" : label;
     showToast(`Download de ${assetLabel} iniciado.`, "success");
@@ -215,6 +228,7 @@ export function PrototypeProvider({ children }: PropsWithChildren) {
   );
 }
 
+// Retorna o contexto principal do prototipo.
 export function usePrototype() {
   const context = useContext(PrototypeContext);
 

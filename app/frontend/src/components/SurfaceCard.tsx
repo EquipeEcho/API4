@@ -6,6 +6,7 @@ type SurfaceCardProps<T extends ElementType> = {
   children: ReactNode;
 } & Omit<ComponentPropsWithoutRef<T>, "as" | "className" | "children">;
 
+// Aplica o estilo base de card em qualquer elemento.
 export function SurfaceCard<T extends ElementType = "div">({
   as,
   className,

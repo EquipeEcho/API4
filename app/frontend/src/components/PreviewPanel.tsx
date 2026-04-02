@@ -4,6 +4,7 @@ type PreviewPanelProps = {
   document: GeneratedDocument;
 };
 
+// Exibe a pre-visualizacao do documento gerado.
 export function PreviewPanel({ document }: PreviewPanelProps) {
   const documentFacts = [
     { label: "Referência", value: document.reference },

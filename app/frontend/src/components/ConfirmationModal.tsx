@@ -14,6 +14,7 @@ type ConfirmationModalProps = {
   onConfirm: () => void;
 };
 
+// Exibe uma confirmacao antes de acoes sensiveis.
 export function ConfirmationModal({
   open,
   title,
@@ -32,6 +33,7 @@ export function ConfirmationModal({
       return;
     }
 
+    // Fecha o modal quando o usuario pressiona Escape.
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         onClose();

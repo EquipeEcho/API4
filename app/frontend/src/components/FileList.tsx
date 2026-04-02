@@ -8,6 +8,7 @@ type FileListProps = {
   className?: string;
 };
 
+// Agrupa itens de arquivo dentro de um card.
 export function FileList({ header, footer, children, className }: FileListProps) {
   return (
     <SurfaceCard as="section" className={`file-list-card${className ? ` ${className}` : ""}`}>
