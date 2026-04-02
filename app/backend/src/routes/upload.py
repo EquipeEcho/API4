@@ -14,6 +14,7 @@ router = APIRouter(
     tags=['upload']
 )
 
+# definindo local de salvamento dos arquivos
 DEFAULT_PATH = Path('uploads')
 DEFAULT_PATH.mkdir(parents=True, exist_ok=True)
 
@@ -26,24 +27,28 @@ async def upload(file: UploadFile = File(...), db: Session = Depends(get_session
             detail='Filename is required'
         )
     
-    if not file.filename.lower().endswith(('dwg', 'dwf', 'dxf')):
+    # Validar extensão do arquivo
+    if not file.filename.lower().endswith(('dwg', 'dwf', 'pdf')):
         raise HTTPException(
             status_code=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
-            detail='Formato não suportado. Use .dwg, .dwf ou .dxf'
+            detail='Formato não suportado. Use .dwg, .dwf ou .pdf'
         )
     
     try:
         file_path = DEFAULT_PATH.joinpath(file.filename)
         
+        # Salvar arquivo no disco
         with open(file_path, 'wb') as buffer:
             shutil.copyfileobj(file.file, buffer)
         
+        # Calcular hash SHA-256 do arquivo
         hash_sha256 = hashlib.sha256()
         with open(file_path, 'rb') as f:
             for chunk in iter(lambda: f.read(4096), b""):
                 hash_sha256.update(chunk)
         file_hash = hash_sha256.hexdigest()
         
+        # Obter tamanho do arquivo
         file_size = file_path.stat().st_size
 
         basepath = Path("src/modules/Memorial")
