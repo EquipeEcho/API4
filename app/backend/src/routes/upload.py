@@ -9,6 +9,8 @@ from src.database import get_session
 
 from src.modules.Memorial.generatorteste import run_integration
 
+logger = logging.getLogger(__name__)
+
 router = APIRouter(
     prefix='/upload',
     tags=['upload']
@@ -24,11 +26,11 @@ async def upload(file: UploadFile = File(...), db: Session = Depends(get_session
     if not file.filename:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail='Filename is required'
+            detail='Nome do arquivo é requerido'
         )
     
     # Validar extensão do arquivo
-    if not file.filename.lower().endswith(('dwg', 'dwf', 'pdf')):
+    if not file.filename.lower().endswith(('dwg', 'dxf', 'pdf')):
         raise HTTPException(
             status_code=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
             detail='Formato não suportado. Use .dwg, .dwf ou .pdf'
@@ -51,10 +53,11 @@ async def upload(file: UploadFile = File(...), db: Session = Depends(get_session
         # Obter tamanho do arquivo
         file_size = file_path.stat().st_size
 
-        basepath = Path("src/modules/Memorial")
+        basepath = Path("modules/Memorial")
         template_file = (basepath / "model_memorial.xlsx").resolve()
 
         output_file = (basepath / f"memorial_{Path(file.filename).stem}.xlsx").resolve()
+        logger.info(output_file)
 
         run_integration(
             dxf_file=str(file_path),
@@ -71,7 +74,7 @@ async def upload(file: UploadFile = File(...), db: Session = Depends(get_session
         }
 
     except Exception as e:
-        logging.error(f"Erro no processamento: {e}")
+        logger.error(f"Erro no processamento: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f'Erro ao processar arquivo: {str(e)}'
