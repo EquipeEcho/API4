@@ -6,9 +6,12 @@ import { PreviewPanel } from "../components/PreviewPanel";
 import { SectionTitle } from "../components/SectionTitle";
 import { usePrototype } from "../providers/PrototypeProvider";
 
+// Exibe o documento gerado e as acoes de download.
 export function ResultPage() {
   const navigate = useNavigate();
   const { currentDocument, downloadDocumentAsset } = usePrototype();
+
+  // Volta para a tela anterior ou para a home.
   const handleBack = () => {
     if (window.history.length > 1) {
       navigate(-1);

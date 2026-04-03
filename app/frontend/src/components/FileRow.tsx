@@ -19,6 +19,7 @@ type FileRowProps = {
   variant?: "upload" | "history";
 };
 
+// Exibe uma linha com dados e acoes de um arquivo.
 export function FileRow({
   name,
   kind,
