@@ -108,7 +108,7 @@ def run_integration(dxf_file: str, template_file: str, output_file: str):
     logger.info("Ambientes encontrados:", len(ambientes))
 
     for a in ambientes:
-        logger.info(a.nome, a.area_liquida, a.tipo)
+        logger.info(f"{a.nome} {a.area_liquida} {a.tipo}")
 
     for ambiente in ambientes:
 

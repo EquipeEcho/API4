@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, status
 from pathlib import Path
 import logging
 
+from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 from src.database import get_session
 
@@ -65,13 +66,11 @@ async def upload(file: UploadFile = File(...), db: Session = Depends(get_session
             output_file=str(output_file)
         )
 
-        return {
-            "filename": file.filename,
-            "file_size": file_size,
-            "file_hash": file_hash,
-            "memorial_gerado": str(output_file),
-            "status": "Processado com sucesso"
-        }
+        return FileResponse(
+            path=output_file, 
+            filename=f"memorial_{file.filename}.xlsx",
+            media_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
 
     except Exception as e:
         logger.error(f"Erro no processamento: {e}")
