@@ -54,7 +54,7 @@ async def upload(file: UploadFile = File(...), db: Session = Depends(get_session
         # Obter tamanho do arquivo
         file_size = file_path.stat().st_size
 
-        basepath = Path("modules/Memorial")
+        basepath = Path("src/modules/Memorial")
         template_file = (basepath / "model_memorial.xlsx").resolve()
 
         output_file = (basepath / f"memorial_{Path(file.filename).stem}.xlsx").resolve()
