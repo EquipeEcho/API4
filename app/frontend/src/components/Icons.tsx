@@ -1,5 +1,6 @@
 import { FileKind } from "../types/documents";
 
+// Renderiza o simbolo principal da marca.
 export function EchoCadIcon() {
   return (
     <svg viewBox="0 0 48 48" focusable="false" aria-hidden="true">
@@ -14,6 +15,7 @@ export function EchoCadIcon() {
   );
 }
 
+// Renderiza o icone de modo escuro.
 export function MoonIcon() {
   return (
     <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
@@ -29,6 +31,7 @@ export function MoonIcon() {
   );
 }
 
+// Renderiza o icone de modo claro.
 export function SunIcon() {
   return (
     <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
@@ -44,6 +47,7 @@ export function SunIcon() {
   );
 }
 
+// Renderiza o icone de upload.
 export function UploadIcon() {
   return (
     <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
@@ -59,6 +63,7 @@ export function UploadIcon() {
   );
 }
 
+// Renderiza o icone de visualizacao.
 export function EyeIcon() {
   return (
     <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
@@ -74,6 +79,7 @@ export function EyeIcon() {
   );
 }
 
+// Renderiza o icone de remocao.
 export function TrashIcon() {
   return (
     <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
@@ -89,6 +95,7 @@ export function TrashIcon() {
   );
 }
 
+// Renderiza o icone de download.
 export function DownloadIcon() {
   return (
     <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
@@ -104,6 +111,7 @@ export function DownloadIcon() {
   );
 }
 
+// Renderiza o icone de avancar.
 export function ChevronPlayIcon() {
   return (
     <svg viewBox="0 0 18 18" focusable="false" aria-hidden="true">
@@ -112,6 +120,7 @@ export function ChevronPlayIcon() {
   );
 }
 
+// Renderiza o icone de sucesso.
 export function CheckCircleIcon() {
   return (
     <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
@@ -128,6 +137,7 @@ export function CheckCircleIcon() {
   );
 }
 
+// Renderiza o icone do toast de sucesso.
 export function ToastSuccessIcon() {
   return (
     <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
@@ -144,6 +154,7 @@ export function ToastSuccessIcon() {
   );
 }
 
+// Renderiza o icone de informacao.
 export function InfoCircleIcon() {
   return (
     <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
@@ -159,6 +170,7 @@ export function InfoCircleIcon() {
   );
 }
 
+// Renderiza o icone de fechar.
 export function CloseIcon() {
   return (
     <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
@@ -173,6 +185,7 @@ export function CloseIcon() {
   );
 }
 
+// Renderiza o icone de carregamento.
 export function SpinnerIcon() {
   return (
     <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
@@ -187,6 +200,7 @@ export function SpinnerIcon() {
   );
 }
 
+// Escolhe o icone conforme o tipo do arquivo.
 export function FileTypeIcon({ kind }: { kind: FileKind }) {
   if (kind === "pdf") {
     return (

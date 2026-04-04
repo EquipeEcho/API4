@@ -4,6 +4,7 @@ type ProgressIndicatorProps = {
   progress: number;
 };
 
+// Mostra o progresso atual do processamento.
 export function ProgressIndicator({ progress }: ProgressIndicatorProps) {
   return (
     <div className="progress-indicator">

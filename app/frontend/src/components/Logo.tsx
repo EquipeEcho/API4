@@ -6,6 +6,7 @@ type LogoProps = {
   subtle?: boolean;
 };
 
+// Renderiza a marca com link para navegacao.
 export function Logo({ to = "/", subtle = false }: LogoProps) {
   return (
     <Link

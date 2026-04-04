@@ -16,10 +16,12 @@ type ThemeContextValue = {
 const STORAGE_KEY = "echocad-theme";
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
+// Valida se o valor salvo corresponde a um tema aceito.
 function isTheme(value: string | null): value is Theme {
   return value === "light" || value === "dark";
 }
 
+// Define o tema inicial com base no navegador ou no valor salvo.
 export function getPreferredTheme(): Theme {
   if (typeof window === "undefined") {
     return "light";
@@ -37,6 +39,7 @@ export function getPreferredTheme(): Theme {
     : "light";
 }
 
+// Aplica o tema atual no documento.
 export function applyTheme(theme: Theme) {
   if (typeof document === "undefined") {
     return;
@@ -46,6 +49,7 @@ export function applyTheme(theme: Theme) {
   document.documentElement.style.colorScheme = theme;
 }
 
+// Disponibiliza o tema para toda a aplicacao.
 export function ThemeProvider({ children }: PropsWithChildren) {
   const [theme, setTheme] = useState<Theme>(() => getPreferredTheme());
 
@@ -54,6 +58,7 @@ export function ThemeProvider({ children }: PropsWithChildren) {
     window.localStorage.setItem(STORAGE_KEY, theme);
   }, [theme]);
 
+  // Alterna entre tema claro e escuro.
   const toggleTheme = () => {
     setTheme((currentTheme) => (currentTheme === "light" ? "dark" : "light"));
   };
@@ -65,6 +70,7 @@ export function ThemeProvider({ children }: PropsWithChildren) {
   );
 }
 
+// Retorna o contexto de tema ja validado.
 export function useTheme() {
   const context = useContext(ThemeContext);
 

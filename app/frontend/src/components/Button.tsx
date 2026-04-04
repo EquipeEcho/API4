@@ -18,6 +18,7 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   fullWidth?: boolean;
 };
 
+// Padroniza botoes com variantes e tamanhos.
 export function Button({
   children,
   className,

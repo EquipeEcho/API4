@@ -5,6 +5,7 @@ import {
   UploadDocument,
 } from "../types/documents";
 
+// Monta um documento de exemplo para a pre-visualizacao.
 function buildPreviewDocument(
   id: string,
   title: string,
@@ -103,6 +104,7 @@ export const mockHistoryDocuments: HistoryDocument[] = [
   },
 ];
 
+// Identifica o tipo do arquivo pelo nome.
 export function getFileKindFromName(fileName: string): FileKind | null {
   const extension = fileName.toLowerCase().split(".").pop();
 
@@ -118,6 +120,7 @@ export function getFileKindFromName(fileName: string): FileKind | null {
   return extension;
 }
 
+// Gera um documento final a partir dos uploads enviados.
 export function buildGeneratedDocumentFromUploads(
   documents: UploadDocument[]
 ): GeneratedDocument {
@@ -133,6 +136,7 @@ export function buildGeneratedDocumentFromUploads(
   );
 }
 
+// Converte o documento gerado em item de historico.
 export function buildHistoryDocumentFromGenerated(
   document: GeneratedDocument
 ): HistoryDocument {

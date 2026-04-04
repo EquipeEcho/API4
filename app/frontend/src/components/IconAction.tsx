@@ -8,6 +8,7 @@ type IconActionProps = {
   tone?: "neutral" | "danger";
 };
 
+// Renderiza uma acao compacta com icone.
 export function IconAction({
   label,
   icon,
