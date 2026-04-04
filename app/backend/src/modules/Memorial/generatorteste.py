@@ -105,7 +105,7 @@ def run_integration(dxf_file: str, template_file: str, output_file: str):
 
     extractor = CADExtractor(dxf_file)
     ambientes = extractor.extrair_dados_reais()
-    logger.info("Ambientes encontrados:", len(ambientes))
+    logger.info(f"Ambientes encontrados: {len(ambientes)}")
 
     for a in ambientes:
         logger.info(f"{a.nome} {a.area_liquida} {a.tipo}")
