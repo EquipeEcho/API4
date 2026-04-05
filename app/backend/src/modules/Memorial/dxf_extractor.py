@@ -8,7 +8,7 @@ from typing import Dict, List, Optional
 from ezdxf.document import Drawing
 from ezdxf.filemanagement import readfile
 
-from src.modules.Memorial.IA_config import classificar
+from IA_config import classificar
 
 
 logger = logging.getLogger(__name__)

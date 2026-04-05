@@ -7,8 +7,10 @@ import logging
 from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 from src.database import get_session
+from src.controller.file_controller import save_file_metadata
 
 from src.modules.Memorial.generatorteste import run_integration
+
 
 logger = logging.getLogger(__name__)
 
@@ -31,11 +33,12 @@ async def upload(file: UploadFile = File(...), db: Session = Depends(get_session
         )
     
     # Validar extensão do arquivo
-    if not file.filename.lower().endswith(('dwg', 'dxf', 'pdf')):
+    if not file.filename.lower().endswith(('dwg', 'dxf', 'pdf', 'xml')):
         raise HTTPException(
             status_code=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
-            detail='Formato não suportado. Use .dwg, .dwf ou .pdf'
+            detail='Formato não suportado. Use .dwg, .dxf, .pdf ou .xml'
         )
+
     
     try:
         file_path = DEFAULT_PATH.joinpath(file.filename)
@@ -54,7 +57,15 @@ async def upload(file: UploadFile = File(...), db: Session = Depends(get_session
         # Obter tamanho do arquivo
         file_size = file_path.stat().st_size
 
+        # Salvar metadados no banco de dados
+        try:
+            saved_file = save_file_metadata(db, file.filename, file_size, file_hash)
+            logger.info(f"Metadados salvos para {file.filename} (ID: {saved_file.id})")
+        except Exception as db_err:
+            logger.error(f"Erro ao salvar metadados: {db_err}")
+
         basepath = Path("src/modules/Memorial")
+
         template_file = (basepath / "model_memorial.xlsx").resolve()
 
         output_file = (basepath / f"memorial_{Path(file.filename).stem}.xlsx").resolve()

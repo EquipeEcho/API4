@@ -6,10 +6,10 @@ from typing import List
 from openpyxl import load_workbook
 from openpyxl.worksheet.worksheet import Worksheet
 
-from src.modules.Memorial.dxf_extractor import Ambiente, CADExtractor, ProjetoMemorial
-from src.modules.Memorial.sinapi import buscar_preco_sinapi, carregar_sinapi
+from dxf_extractor import Ambiente, CADExtractor, ProjetoMemorial
+from sinapi import buscar_preco_sinapi, carregar_sinapi
 
-from .IA_config import *
+from IA_config import *
 
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
@@ -145,3 +145,15 @@ def run_integration(dxf_file: str, template_file: str, output_file: str):
     arquivo_final = generator.generate(projeto, output_file)
 
     logger.info(f"Sucesso! Memorial gerado em: {arquivo_final}")
+
+if __name__ == "__main__":
+    basepath = Path(__file__).parent
+    dxf_file = (basepath / "teste.dxf").resolve()
+    template_file = (basepath / "model_memorial.xlsx").resolve()
+    output_file = (basepath / "memorial_preenchido.xlsx").resolve()
+
+    run_integration(
+        dxf_file=str(dxf_file),
+        template_file=str(template_file),
+        output_file=str(output_file)
+    )

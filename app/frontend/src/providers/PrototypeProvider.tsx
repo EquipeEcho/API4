@@ -198,10 +198,32 @@ export function PrototypeProvider({ children }: PropsWithChildren) {
     showToast(`Pré-visualização simulada: ${fileName}.`, "info");
   };
 
-  // Simula o download de um arquivo gerado.
-  const downloadDocumentAsset = (label: string) => {
-    const assetLabel = label.includes(".") ? "arquivo" : label;
-    showToast(`Download de ${assetLabel} iniciado.`, "success");
+  // Download real do memorial_preenchido.xlsx gerado pelo backend
+  const downloadDocumentAsset = async (label: string) => {
+    if (label !== "XLSX") {
+      showToast(`Download de ${label} ainda em protótipo.`, "info");
+      return;
+    }
+
+    try {
+const response = await fetch("http://127.0.0.1:8000/Memorial/memorial_preenchido.xlsx");
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "memorial_preenchido.xlsx";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+      showToast("Download do memorial_preenchido.xlsx iniciado!", "success");
+    } catch (error) {
+      console.error("Download failed:", error);
+      showToast("Erro no download. Verifique se o backend está rodando em http://127.0.0.1:8000.", "error");
+    }
   };
 
   return (

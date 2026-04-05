@@ -8,8 +8,29 @@ import { usePrototype } from "../providers/PrototypeProvider";
 
 // Exibe o documento gerado e as acoes de download.
 export function ResultPage() {
-  const navigate = useNavigate();
-  const { currentDocument, downloadDocumentAsset } = usePrototype();
+    const navigate = useNavigate();
+    const { currentDocument } = usePrototype();
+
+  const downloadDocumentAsset = async (type:any) => {
+    try {
+      const response = await fetch(`/api/download/${type.toLowerCase()}`);
+
+      if (!response.ok) throw new Error("Erro no download");
+
+      const blob = await response.blob();
+
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+
+      a.href = url;
+      a.download = `memorial.${type.toLowerCase()}`;
+      a.click();
+
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   // Volta para a tela anterior ou para a home.
   const handleBack = () => {
@@ -61,9 +82,9 @@ export function ResultPage() {
           <Button
             variant="primary"
             leadingIcon={<DownloadIcon />}
-            onClick={() => downloadDocumentAsset("XML")}
+            onClick={() => downloadDocumentAsset("XLSX")}
           >
-            Baixar XML
+            Baixar XSLX
           </Button>
           <Button
             variant="success"

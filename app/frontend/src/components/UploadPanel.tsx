@@ -147,6 +147,7 @@ export function UploadPanel() {
       /* Atualmente ele está enviando uma requisição por arquivo */
       /* Futuras alterações devem ser feitas para enviar apenas uma requisição */
       for (const doc of uploadedFiles) {
+        navigate("/processando");
         const formData = new FormData();
         formData.append("file", doc.file);
 
@@ -166,7 +167,7 @@ export function UploadPanel() {
       showToast("Processamento concluído!", "success");
 
       console.log("bom dia");
-      navigate("/processando");
+      
       console.log("tudo bom?");
 
     } catch (error) {
