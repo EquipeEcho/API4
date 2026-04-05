@@ -6,7 +6,7 @@ from agno.agent import Agent
 from agno.models.ollama import Ollama
 
 classifier = Agent(
-    model=Ollama(id="qwen2.5:3b"),
+    model=Ollama(id="qwen2.5:8b"),
     instructions=[
         '''
         Você é um classificador de elementos de projetos CAD.

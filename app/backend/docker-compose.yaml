@@ -18,5 +18,19 @@ services:
       - ollama_data:/root/.ollama
     restart: unless-stopped
 
+  ollama-model-puller:
+    image: curlimages/curl:latest
+    container_name: ollama_puller
+    depends_on:
+      - ollama
+    entrypoint: [ "/bin/sh", "-c" ]
+    command: |
+      "until curl -s http://ollama:11434/api/tags > /dev/null; do
+        echo 'Aguardando Ollama iniciar...'
+        sleep 5
+      done
+      echo 'Baixando modelo qwen2.5:8b...'
+      curl -X POST http://ollama:11434/api/pull -d '{\"name\": \"qwen2.5:8b\"}'"
+
 volumes:
   ollama_data:
