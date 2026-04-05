@@ -67,29 +67,14 @@ Este projeto visa criar uma solução capaz de retirar dados de qualquer tipo de
 ---
 ## 🚀 MVP - Mínimo Produto Viável
 
-### 🟢 Sprint 1 - Questionário Geral - Em andamento
+### 🟢 Sprint 1 - Geração do memorial de cálculo básico - Em andamento
 [![MVP SPRINT 1]()
 
-### 📈 Backlog da Sprint 1 - [Detalhes](./docs/Sprint-1/sprint1.backlog.md)
-| Rank | Prioridade | User Story                                                               | Estimativa |
-| ---- | ---------- | ------------------------------------------------------------------------ | ---------- |
-
-
-### 🟡 Sprint 2 - Geração de Diagnósticos Personalizados - Não iniciada
+### 🟡 Sprint 2 - Assitente IA e geração de especificações técnicas  - Não iniciada
 [![MVP SPRINT 2]()
 
-
-### 📈 Backlog da Sprint 2- [Detalhes](./docs/Sprint-2/sprint2.backlog.md)
-| Rank | Prioridade | User Story                                               | Estimativa |
-| ---- | ---------- | -------------------------------------------------------- | ---------- |
-
-
-### 🔵 Sprint 3 - Dashboard do Cliente - Não iniciada
+### 🔵 Sprint 3 - Documentação e exportação de documentos - Não iniciada
 [![MVP SPRINT 3]()
-
-### 📈 Backlog da Sprint 3 - [Detalhes](./docs/Sprint-3/sprint3.backlog.md)
-| Rank | Prioridade | User Story                                                                                      | Estimativa |
-| ---- | ---------- | ----------------------------------------------------------------------------------------------- | ---------- |
 
 
 ## 🏃‍ DoR - Definition of Ready
