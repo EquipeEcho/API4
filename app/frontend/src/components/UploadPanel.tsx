@@ -159,13 +159,15 @@ export function UploadPanel() {
           throw new Error("Erro no envio");
         }
 
-        const data = await response.json();
-        console.log("Resposta:", data);
+        const blob = await response.blob();
+        console.log("Resposta:", blob);
       }
 
       showToast("Processamento concluído!", "success");
 
+      console.log("bom dia");
       navigate("/processando");
+      console.log("tudo bom?");
 
     } catch (error) {
       console.error(error);

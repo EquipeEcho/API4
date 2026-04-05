@@ -7,10 +7,10 @@ ENV PYTHONUNBUFFERED=1 \
 WORKDIR /app
 
 # Copia o arquivo de dependências
-COPY requirements-docker.txt .
+COPY requirements.txt .
 
 # Instala as dependências
-RUN pip install --no-cache-dir -r requirements-docker.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copia o código fonte
 COPY . .
