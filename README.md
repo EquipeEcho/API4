@@ -4,7 +4,7 @@
 
 Sistema desenvolvido como parte do projeto **API – Aprendizagem por Projetos Integrados (FATEC – 2026-1º Semestre)**, em parceria com o **Exército - Guarnição de Caçapava**.
 
-O objetivo é desenvolver um site para extrair informações de uma planta CAD e gerar automaticamente uma documentação técnica utilizando uma inteligência artificial para garantir a precisão dos dados obtidos.
+O objetivo é desenvolver um site para extrair informações de uma planta CAD e gerar automaticamente uma documentação técnica utilizando inteligência artificial para auxiliar nas etapas necessárias para criação do memorial de cálculo.
 
 ---
 
@@ -41,7 +41,6 @@ Este projeto visa criar uma solução capaz de retirar dados de qualquer tipo de
 - 📖 [Manual de Instalação](docs/manual-instalacao.md)  
 - 👨‍💻 [Manual do Usuário](docs/manual-usuario.md)
 - 🖥️ [Manual do Desenvolvedor](https://docs.google.com/document/d/16Qun6kh2kjLRQpp6ShXNLXjaFmUmkUgfRqPLsjNbvSs/edit?usp=sharing)
-- 🔌 [Documentação da API](docs/api.md)  
 
 ---
 
@@ -67,14 +66,14 @@ Este projeto visa criar uma solução capaz de retirar dados de qualquer tipo de
 ---
 ## 🚀 MVP - Mínimo Produto Viável
 
-### 🟢 Sprint 1 - Geração do memorial de cálculo básico - Em andamento
-[![MVP SPRINT 1]()
+### 🟢 Sprint 1 - Geração do memorial de cálculo básico - Concluída
+<img width="1365" height="715" alt="Image" src="https://github.com/user-attachments/assets/f679e504-ef74-4e1e-b136-9498dc8ec04c"/>
 
-### 🟡 Sprint 2 - Assitente IA e geração de especificações técnicas  - Não iniciada
-[![MVP SPRINT 2]()
+### 🟡 Sprint 2 - Assitente IA e geração de especificações técnicas  - Em andamento
+[![MVP SPRINT 2]()]
 
 ### 🔵 Sprint 3 - Documentação e exportação de documentos - Não iniciada
-[![MVP SPRINT 3]()
+[![MVP SPRINT 3]()]
 
 
 ## 🏃‍ DoR - Definition of Ready
@@ -106,7 +105,7 @@ Este projeto visa criar uma solução capaz de retirar dados de qualquer tipo de
 - Extração de dados através da planta CAD
 - Cálculos complexos para tratação de dados
 - Garantia de precisão com IA
-- Entrega de resultados em PDF
+- Entrega de resultados em PDF e XLSX
 
 ---
 
@@ -131,13 +130,15 @@ Este projeto visa criar uma solução capaz de retirar dados de qualquer tipo de
  <a href="https://code.visualstudio.com/"><img src="https://img.shields.io/badge/VS_Code-007ACC?style=for-the-badge&logo=visual-studio-code&logoColor=white"></a>
  <a href="https://www.atlassian.com/software/jira"><img src="https://img.shields.io/badge/Jira-0052CC?style=for-the-badge&logo=jira&logoColor=white"/></a>
  <a href="https://github.com/"><img src="https://img.shields.io/badge/GitHub-121011?style=for-the-badge&logo=github&logoColor=white"/></a>
+ <a href="https://www.mysql.com/"><img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white"/></a>
+ <a href="https://docs.trychroma.com/docs/overview/introduction"><img src="https://img.shields.io/badge/ChromaDB-purple?style=for-the-badge"/></a>
 </h4>
 
 ---
 
 ## 👥 <span id="authors">Autores</span>
 
-Projeto desenvolvido pelos alunos do **4º semestre de ADS – FATEC SJC (2025-2)** em parceria com o **Exército - Guarnição de Caçapava**.  
+Projeto desenvolvido pelos alunos do **4º semestre de ADS – FATEC SJC (2026-1)** em parceria com o **Exército - Guarnição de Caçapava**.  
 
 <div align="center">
   <table>
