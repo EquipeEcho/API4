@@ -20,7 +20,7 @@ Antes de iniciar a instalação, certifique-se de ter os seguintes softwares ins
 ### Obrigatórios
 
 - **Armazenamento**
-    - Verifique se possui xGB disponíveis para fazer a instalação do projeto
+    - Verifique se possui 300MB disponíveis para fazer a instalação do projeto
 
 - **Node.js** (versão 18.x ou superior)
   - Download: https://nodejs.org/
@@ -33,6 +33,10 @@ Antes de iniciar a instalação, certifique-se de ter os seguintes softwares ins
 - **Git**
   - Download: https://git-scm.com/downloads
   - Verifique a instalação: `git --version`
+
+- **Python**
+  - Download: https://www.python.org/downloads/
+  - Verifique a instalação: `python --version`
 
 ### Opcionais (mas recomendados)
 
@@ -69,88 +73,88 @@ A definir
 
 ---
 
-## ⚙️ Configuração das Variáveis de Ambiente
-
-1. **Crie o arquivo `.env` na pasta `app`**
-
-```bash
-# Na pasta app
-touch .env
-```
-
-2. **Configure as variáveis de ambiente**
-
-Copie o conteúdo abaixo e ajuste conforme sua configuração:
-
-```env
-A definir
-```
-
----
-
 ## 📦 Instalação das Dependências
 
-Na pasta `app`, execute:
+É recomendável criar um ambiente virtual, pois isso garante que bibliotecas e suas versões não entrem em conflito com outros projetos que você tenha.<br>
+Por exemplo, imagine que você possui um projeto que apenas roda com uma versão mais antiga de Python, mas o EchoCAD utiliza a última versão disponível atualmente (04-2026), sem o ambiente virtual você não conseguirá rodar este outro projeto ao atualizar globalmente a versão do seu Python.
+
+Para criar o ambiente virtual utilize o seguinte comando:
 
 ```bash
-# Instalar todas as dependências do projeto
-pnpm install
-
-# Isso pode levar alguns minutos na primeira vez
+python -m venv venv
 ```
 
-### Verificar Instalação das Dependências
+Inicie seu ambiente virtual com:
+```bash
+venv\Scripts\activate
+```
+
+E para sair do ambiente virtual escreva:
+```bash
+deactivate
+```
+>Lembre-se sempre de iniciar o ambiente virtual antes de executar o projeto
+
+Na pasta `app`, execute:<br>
+> Obs: Você terá que instalar as dependências tanto do frontend quanto do backend, mas ambos partem dessa mesma pasta `app`.
+
+### Frontend
+
+Navegue até a pasta do frontend com o seguinte comando:
 
 ```bash
-# Listar dependências instaladas
-pnpm list
+cd frontend
+```
+
+Para instalar as dependências utilize o comando:
+```bash
+npm install
+```
+
+> Não feche o terminal ainda, você terá que abrir dois deles para rodar completamente o projeto
+
+### Backend
+
+Abra outro terminal para executar as seguintes funções, caso esteja usando o CMD você terá que abrir outro, mas com o VS Code basta clicar no sinal de `+` na direita no botão `TERMINAL` e `PORTS`.
+
+A partir da pasta `app` navegue até a pasta do backend
+
+```bash
+cd backend
+```
+
+Instale as dependências com o comando:
+```bash
+pip install -r requirements.txt
 ```
 
 ---
 
 ## ▶️ Execução do Projeto
 
-### Modo Desenvolvimento
+### Frontend
+
+Primeiramente navegue até a pasta destinada para o frontend, caso esteja na pasta `app` digite o seguinte código:
 
 ```bash
 # Na pasta app
-pnpm dev
+cd frontend
 ```
 
-O servidor estará disponível em: **http://localhost:3000**
-
-### Modo Produção
-
+Para executar o frontend, utilize o seguinte comando:
 ```bash
-# Build da aplicação
-pnpm build
-
-# Executar em produção
-pnpm start
+npm run dev
 ```
 
-### Scripts Úteis
+O retorno será principalmente uma lista com três links, apenas segure o `Ctrl` e clique no primeiro, ou seja, o Local.
+
+### Backend
 
 ```bash
-# Executar linter
-pnpm lint
-
-# Executar testes
-pnpm test
-
-# Popular banco de dados com dados de teste
-pnpm seed
+uvicorn src.main:app --reload
 ```
 
 ---
-
-## ✅ Verificação da Instalação
-
-### 1. Verifique se o servidor está rodando
-
-Abra o navegador e acesse: **http://localhost:3000**
-
-Você deve ver a página inicial do EchoDoc.
 
 ### 2. Teste a conexão com o banco de dados
 
