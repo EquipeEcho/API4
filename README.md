@@ -39,7 +39,7 @@ Este projeto visa criar uma solução capaz de retirar dados de qualquer tipo de
 ## 📚 <span id="documents">Manuais e Documentação</span>
 
 - 📖 [Manual de Instalação](docs/manual-instalacao.md)  
-- 👨‍💻 [Manual do Usuário](docs/manual-usuario.md)
+- 👨‍💻 [Manual do Usuário](https://docs.google.com/document/d/1ekIfzlc30ju7d_bATAOY1NgEiKclbtIQ1lRkMwI_T3M/edit?usp=sharing)
 - 🖥️ [Manual do Desenvolvedor](https://docs.google.com/document/d/16Qun6kh2kjLRQpp6ShXNLXjaFmUmkUgfRqPLsjNbvSs/edit?usp=sharing)
 
 ---
