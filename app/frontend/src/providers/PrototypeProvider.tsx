@@ -227,7 +227,7 @@ export function PrototypeProvider({ children }: PropsWithChildren) {
       link.href = window.URL.createObjectURL(blob);
 
       // define nome do arquivo
-      link.download = label.includes(".") ? label : `${label}.pdf`;
+      link.download = label.includes(".") ? label : `${label}.xlsx`;
 
       document.body.appendChild(link);
       link.click();

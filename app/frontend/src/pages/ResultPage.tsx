@@ -64,10 +64,10 @@ export function ResultPage() {
             variant="primary"
             leadingIcon={<DownloadIcon />}
             onClick={() =>
-              downloadDocumentAsset(url, `arquivo-${index + 1}.pdf`)
+              downloadDocumentAsset(url, `arquivo-${index + 1}.xlsx`)
             }
           >
-            Baixar XML
+            Baixar XLSX
           </Button>
         ))}
 
