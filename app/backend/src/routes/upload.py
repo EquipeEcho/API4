@@ -2,10 +2,15 @@ import shutil
 import hashlib
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, status
 from pathlib import Path
+import logging
 
+from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
-from src.controller import file_controller
 from src.database import get_session
+
+from src.modules.Memorial.generatorteste import run_integration
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter(
     prefix='/upload',
@@ -18,15 +23,15 @@ DEFAULT_PATH.mkdir(parents=True, exist_ok=True)
 
 
 @router.post('/')
-async def upload(file: UploadFile = File(), db: Session = Depends(get_session)):
+async def upload(file: UploadFile = File(...), db: Session = Depends(get_session)):
     if not file.filename:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail='Filename is required'
+            detail='Nome do arquivo é requerido'
         )
     
     # Validar extensão do arquivo
-    if not file.filename.endswith(('dwg', 'dwf', 'pdf')):
+    if not file.filename.lower().endswith(('dwg', 'dxf', 'pdf')):
         raise HTTPException(
             status_code=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
             detail='Formato não suportado. Use .dwg, .dwf ou .pdf'
@@ -48,15 +53,27 @@ async def upload(file: UploadFile = File(), db: Session = Depends(get_session)):
         
         # Obter tamanho do arquivo
         file_size = file_path.stat().st_size
-               
-        return {
-            "filename": file.filename,
-            "file_size": file_size,
-            "file_hash": file_hash,
-            "status": "Arquivo salvo com sucesso"
-        }
-    
+
+        basepath = Path("src/modules/Memorial")
+        template_file = (basepath / "model_memorial.xlsx").resolve()
+
+        output_file = (basepath / f"memorial_{Path(file.filename).stem}.xlsx").resolve()
+        logger.info(output_file)
+
+        run_integration(
+            dxf_file=str(file_path),
+            template_file=str(template_file),
+            output_file=str(output_file)
+        )
+
+        return FileResponse(
+            path=output_file, 
+            filename=f"memorial_{file.filename}.xlsx",
+            media_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+
     except Exception as e:
+        logger.error(f"Erro no processamento: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f'Erro ao processar arquivo: {str(e)}'
