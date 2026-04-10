@@ -12,8 +12,12 @@ const progressSteps = [12, 26, 39, 57, 71, 86, 100];
 // Mostra o andamento do processamento simulado.
 export function ProcessingPage() {
   const navigate = useNavigate();
-  const { uploadedFiles, completeProcessing } = usePrototype();
+  const { uploadedFiles } = usePrototype();
+
   const [progress, setProgress] = useState(progressSteps[0]);
+  const [results, setResults] = useState<any[]>([]);
+  const [isProcessingDone, setIsProcessingDone] = useState(false);
+
   const hasFinishedRef = useRef(false);
 
   useEffect(() => {
@@ -38,25 +42,78 @@ export function ProcessingPage() {
     };
   }, [uploadedFiles.length]);
 
-  useEffect(() => {
-    if (progress < 100 || hasFinishedRef.current || uploadedFiles.length === 0) {
-      return;
-    }
+useEffect(() => {
+    if (uploadedFiles.length === 0) return;
 
-    const timeoutId = window.setTimeout(() => {
-      if (hasFinishedRef.current) {
+    let stepIndex = 0;
+
+    const intervalId = window.setInterval(() => {
+      stepIndex += 1;
+
+      if (stepIndex >= progressSteps.length) {
+        window.clearInterval(intervalId);
         return;
       }
 
-      hasFinishedRef.current = true;
-      completeProcessing();
-      navigate("/resultado", { replace: true });
-    }, 500);
+      setProgress(progressSteps[stepIndex]);
+    }, 520);
 
-    return () => {
-      window.clearTimeout(timeoutId);
+    return () => window.clearInterval(intervalId);
+  }, [uploadedFiles.length]);
+
+  useEffect(() => {
+    if (uploadedFiles.length === 0) return;
+
+    const processFiles = async () => {
+      try {
+        let tempResults = [];
+
+        for (const doc of uploadedFiles) {
+          const formData = new FormData();
+          formData.append("file", doc.file);
+
+          const response = await fetch("http://127.0.0.1:8000/upload/", {
+            method: "POST",
+            body: formData,
+          });
+
+          if (!response.ok) {
+            throw new Error("Erro no envio");
+          }
+
+          const data = await response.json();
+          tempResults.push(data);
+        }
+
+        setResults(tempResults);
+        setIsProcessingDone(true);
+
+      } catch (error) {
+        console.error(error);
+        navigate("/", { replace: true });
+      }
     };
-  }, [completeProcessing, navigate, progress, uploadedFiles.length]);
+
+    processFiles();
+  }, [uploadedFiles, navigate]);
+
+  useEffect(() => {
+    if (
+      progress < 100 ||
+      !isProcessingDone ||
+      hasFinishedRef.current
+    ) {
+      return;
+    }
+
+    hasFinishedRef.current = true;
+
+    navigate("/resultado", {
+      replace: true,
+      state: { results }
+    });
+
+  }, [progress, isProcessingDone, results, navigate]);
 
   if (uploadedFiles.length === 0) {
     return (
