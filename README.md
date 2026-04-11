@@ -68,7 +68,16 @@ Este projeto visa criar uma solução capaz de retirar dados de qualquer tipo de
 ## 🚀 MVP - Mínimo Produto Viável
 
 ### 🟢 Sprint 1 - Geração do memorial de cálculo básico - Concluído
-[![https://youtu.be/TYSAJDFz9T0?si=gq7HXaN9i9bD9JgZ]()
+[![MVP SPRINT](https://i.ytimg.com/an_webp/TYSAJDFz9T0/mqdefault_6s.webp?du=3000&sqp=CKWp5s4G&rs=AOn4CLC8TSqTtw1kYLGJPU6fkMYla_dE0A)](https://youtu.be/TYSAJDFz9T0?si=gq7HXaN9i9bD9JgZ)
+
+| Rank | Prioridade | User Story | Estimativa | Sprint |
+|-----|------------|------------|------------|--------|
+| US01 | Alta | Como usuário, quero enviar um arquivo CAD para que o sistema processe a planta automaticamente. | 5 | 1 |
+| US02 | Alta | Como sistema, quero extrair entidades do arquivo CAD para transformar a planta em dados estruturados. | 8 | 1 |
+| US03 | Alta | Como sistema, preciso validar o formato dos arquivos CAD enviados para garantir que apenas arquivos suportados sejam processados. | 3 | 1 |
+| US04 | Alta | Como usuário, quero que o sistema aplique fórmulas  de engenharia para gerar dados do memorial de cálculo. | 8 | 1 |
+| US05 | Alta | Como usuário, quero gerar automaticamente um memorial de cálculo estruturado para documentar o projeto técnico. | 5 | 1 |
+
 
 ### 🟡 Sprint 2 - Assitente IA e geração de especificações técnicas  - Não iniciada
 [![MVP SPRINT 2]()
