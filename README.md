@@ -67,8 +67,8 @@ Este projeto visa criar uma solução capaz de retirar dados de qualquer tipo de
 ---
 ## 🚀 MVP - Mínimo Produto Viável
 
-### 🟢 Sprint 1 - Geração do memorial de cálculo básico - Em andamento
-[![MVP SPRINT 1]()
+### 🟢 Sprint 1 - Geração do memorial de cálculo básico - Concluído
+[![https://youtu.be/TYSAJDFz9T0?si=gq7HXaN9i9bD9JgZ]()
 
 ### 🟡 Sprint 2 - Assitente IA e geração de especificações técnicas  - Não iniciada
 [![MVP SPRINT 2]()
