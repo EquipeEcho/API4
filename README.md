@@ -72,6 +72,18 @@ Este projeto visa criar uma solução capaz de retirar dados de uma planta CAD c
 ### 🟢 Sprint 1 - Geração do memorial de cálculo básico - Concluída
 <img width="1366" height="500" alt="Sprint 1 MVP" src="./docs/img/sprint1_mvp.png"/>
 
+### Backlog Sprint 1 -<a href="./docs/backlog_sprint1/backlog.md"> Detalhes</a>
+
+| Rank | Prioridade | User Story | Estimativa | Sprint |
+|-----|------------|------------|------------|--------|
+| US01 | Alta | Como usuário, quero enviar um arquivo CAD para que o sistema processe a planta automaticamente. | 5 | 1 |
+| US02 | Alta | Como sistema, quero extrair entidades do arquivo CAD para transformar a planta em dados estruturados. | 8 | 1 |
+| US03 | Alta | Como sistema, preciso validar o formato dos arquivos CAD enviados para garantir que apenas arquivos suportados sejam processados. | 3 | 1 |
+| US04 | Alta | Como usuário, quero que o sistema aplique fórmulas  de engenharia para gerar dados do memorial de cálculo. | 8 | 1 |
+| US05 | Alta | Como usuário, quero gerar automaticamente um memorial de cálculo estruturado para documentar o projeto técnico. | 5 | 1 |
+| US06 | Alta | Como consumidor, quero uma interface limpa e direta para que eu não fique perdido ao tentar navegar pelo site. | 5 | 1 |
+| US07 | Alta | Como cliente, quero uma IA dedicada para filtrar os dados extraídos da planta CAD corretamente de acordo com as layers. | 8 | 1 |
+
 ### 🟡 Sprint 2 - Assitente IA e geração de especificações técnicas  - Em andamento
 
 ### 🔵 Sprint 3 - Documentação e exportação de documentos - Não iniciada
