@@ -85,6 +85,11 @@ class MemorialGenerator:
         mapper.preencher_titulo_projeto(projeto.nome_projeto)
         mapper.preencher_ambientes(projeto.ambientes)
 
+        # Essas flags são utilizadas para recalcular o modelo ao abrir o arquivo
+        # Então ele irá adicionar as modificações feitas no modelo utilizado
+        wb.calculation.fullCalcOnLoad = True
+        wb.calculation.forceFullCalc = True
+
         out_p = Path(output_path)
         out_p.parent.mkdir(parents=True, exist_ok=True)
         wb.save(out_p)
