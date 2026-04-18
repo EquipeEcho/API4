@@ -56,15 +56,30 @@ class LevantamentoCampoMapper:
             row = self.START_ROW + index
 
             self.ws[f"B{row}"] = ambiente.nome
-            self.ws[f"E{row}"] = ambiente.dimensoes.comprimento or 0
-            self.ws[f"G{row}"] = ambiente.dimensoes.altura
-            self.ws[f"H{row}"] = ambiente.dimensoes.espessura
 
-            self.ws[f"J{row}"] = ambiente.vao.tipo
-            self.ws[f"K{row}"] = ambiente.vao.comprimento or 0
+            comprimento = 0
+            altura = 0
+            espessura = 0
+            vao_comp = 0
 
-            self.ws[f"L{row}"] = ambiente.area_parede
-            self.ws[f"M{row}"] = ambiente.area_liquida
+            for el in ambiente.elementos:
+                if el.tipo == "dimensoes":
+                    comprimento = el.comprimento
+                    altura = el.altura
+                    espessura = el.espessura
+
+                elif el.tipo == "vao":
+                    vao_comp = el.comprimento
+
+            self.ws[f"E{row}"] = comprimento
+            self.ws[f"G{row}"] = altura
+            self.ws[f"H{row}"] = espessura
+
+            self.ws[f"J{row}"] = "Esquadrias"
+            self.ws[f"K{row}"] = vao_comp
+
+            self.ws[f"L{row}"] = ambiente.resumo.get("area_parede", 0)
+            self.ws[f"M{row}"] = ambiente.resumo.get("area_liquida", 0)
 
             self.ws[f"{self.PRECO_UNITARIO_COL}{row}"] = getattr(
                 ambiente, 'custo_unitario', 0)
@@ -113,7 +128,7 @@ def run_integration(dxf_file: str, template_file: str, output_file: str):
     logger.info(f"Ambientes encontrados: {len(ambientes)}")
 
     for a in ambientes:
-        logger.info(f"{a.nome} {a.area_liquida} {a.tipo}")
+        logger.info(f"{a.nome} {a.resumo.get('area_liquida', 0)} {a.tipo}")
 
     for ambiente in ambientes:
 
@@ -131,7 +146,8 @@ def run_integration(dxf_file: str, template_file: str, output_file: str):
 
         if preco is not None:
             ambiente.custo_unitario = preco
-            ambiente.custo_total = preco * (ambiente.area_liquida or 0)
+            area_liquida = ambiente.resumo.get("area_liquida", 0)
+            ambiente.custo_total = preco * area_liquida
             logger.info(
                 f"[SINAPI] Ambiente '{ambiente.nome}' | produto '{material}' | "
                 f"preço unitário {ambiente.custo_unitario:.6f} | total {ambiente.custo_total:.6f}"

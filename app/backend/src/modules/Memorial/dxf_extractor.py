@@ -34,40 +34,45 @@ MAP_LAYER = {
 }
 
 @dataclass
-class Dimensoes:
-    comprimento: Optional[float] = None
-    largura: Optional[float] = None
-    altura: Optional[float] = 3.0  # Altura padrão (pé-direito)
-    espessura: Optional[float] = 0.15
+class ElementoBase:
+    tipo: str
+    comprimento: float = 0
+    altura: float = 0
+    espessura: float = 0
+    area: float = 0
+
+@dataclass
+class Dimensoes(ElementoBase):
+    tipo: str = "dimensoes"
+    altura: float = 3.0
+    espessura: float = 0.15
 
 
 @dataclass
-class Vao:
-    tipo: Optional[str] = None
-    comprimento: Optional[float] = None
-    altura: Optional[float] = 2.1
-    espessura: Optional[float] = 0.15
+class Vao(ElementoBase):
+    tipo: str = "vao"
+    altura: float = 2.1
+    espessura: float = 0.15
 
 
 @dataclass
-class AlvenariaAdicional:
-    tipo: Optional[str] = None
-    comprimento: Optional[float] = None
-    altura: Optional[float] = None
-    espessura: Optional[float] = None
+class AlvenariaAdicional(ElementoBase):
+    tipo: str = "alvenaria_adicional"
 
 
 @dataclass
 class Ambiente:
     nome: str
     centro: tuple = (0, 0)
-    tipo: str = "parede"  
-    dimensoes: Dimensoes = field(default_factory=Dimensoes)
-    vao: Vao = field(default_factory=Vao)
-    area_parede: float = 0
-    area_liquida: float = 0
+    tipo: str = "parede"
+    aba: str = "Levantamento Campo"
+
+    elementos: List[ElementoBase] = field(default_factory=list)
+
     custo_unitario: float = 0
     custo_total: float = 0
+
+    resumo: dict = field(default_factory=dict)
 
 @dataclass
 class ProjetoMemorial:
@@ -79,6 +84,14 @@ class CADExtractor:
     def __init__(self, file_path: str):
         self.file_path = file_path
         self.doc = self._load_file()
+
+    def _get_elemento(self, ambiente: Ambiente, tipo: str):
+        elementos = [
+            el for el in ambiente.elementos
+            if el.tipo == tipo
+        ]
+
+        return elementos[0] if elementos else None
 
     def _get_centro_entidade(self, entity):
         tipo = entity.dxftype()
@@ -232,6 +245,7 @@ class CADExtractor:
         )
 
         logging.info(f"Classificação IA: (confiança: {conf:.2f})")
+        return tipo
 
     def extrair_dados_reais(self) -> List[Ambiente]:
         if not self.doc:
@@ -285,38 +299,45 @@ class CADExtractor:
             if tipo_mapeado in ["parede", "hidro", "vao", "cobertura", "parede_leve", "laje"]:
                 ambiente.tipo = tipo_mapeado
 
+            comp = self._calcular_comprimento(entity)
+
             if tipo_mapeado == "parede":
-                comp = self._calcular_comprimento(entity)
-                if not ambiente.dimensoes.comprimento:
-                    ambiente.dimensoes.comprimento = 0
-                ambiente.dimensoes.comprimento += comp
+                el = self._get_elemento(ambiente, "dimensoes")
+
+                if not el:
+                    el = Dimensoes(tipo="dimensoes")
+                    ambiente.elementos.append(el)
+
+                el.comprimento += comp
 
             elif tipo_mapeado == "vao":
-                comp = self._calcular_comprimento(entity)
-                if not ambiente.vao.comprimento:
-                    ambiente.vao.comprimento = 0
-                ambiente.vao.comprimento += comp
-                ambiente.vao.tipo = "Esquadrias"
+                el = self._get_elemento(ambiente, "vao")
+
+                if not el:
+                    el = Vao(tipo="vao")
+                    ambiente.elementos.append(el)
+
+                el.comprimento += comp
+                el.tipo = "Esquadrias"
 
         for ambiente in ambientes_lista:
-            # Normalizar valores por ambiente
-            comprimento = self._normalizar_unidade(
-                ambiente.dimensoes.comprimento or 0)
-            vao_comp = self._normalizar_unidade(ambiente.vao.comprimento or 0)
+            parede = 0
+            vao = 0
 
-            altura = ambiente.dimensoes.altura or 3.0
-            altura_vao = ambiente.vao.altura or 2.1
+            for el in ambiente.elementos:
+                comp = self._normalizar_unidade(el.comprimento or 0)
+                alt = el.altura or 0
 
-            # Cálculo de áreas
-            area_parede = comprimento * altura
-            area_vao = vao_comp * altura_vao
+                if el.tipo == "dimensoes":
+                    parede += comp * alt
 
-            ambiente.area_parede = round(area_parede, 2)
-            ambiente.area_liquida = round(max(area_parede - area_vao, 0), 2)
+                if el.tipo == "vao":
+                    vao += comp * alt
 
-            # Atualizar valores normalizados
-            ambiente.dimensoes.comprimento = round(comprimento, 2)
-            ambiente.vao.comprimento = round(vao_comp, 2)
+        ambiente.resumo = {
+            "area_parede": parede,
+            "area_liquida": max(parede - vao, 0)
+        }
 
         # Limitar para os primeiros 20 ambientes para caber no template
 
